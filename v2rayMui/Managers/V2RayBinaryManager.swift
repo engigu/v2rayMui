@@ -26,7 +26,11 @@ class V2RayBinaryManager {
             return nil
         }
         
-        let externalPath = libraryPath.appendingPathComponent("Application Support/\(bundleIdentifier)/V2ray/v2ray").path
+        var base = libraryPath.appendingPathComponent("Application Support/\(bundleIdentifier)")
+        if AppEnvironment.isRunningInXcode {
+            base.appendPathComponent("dev")
+        }
+        let externalPath = base.appendingPathComponent("V2ray/v2ray").path
         return externalPath
     }
     

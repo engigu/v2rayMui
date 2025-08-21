@@ -93,6 +93,8 @@ class LogManager: ObservableObject {
         )
         
         DispatchQueue.main.async {
+            // 通知UI即将更新，避免偶发不刷新导致日志面板为空
+            self.objectWillChange.send()
             self.logs.append(entry)
             
             // 定期清理内存中的日志
@@ -105,6 +107,7 @@ class LogManager: ObservableObject {
     
     /// 清空日志
     func clearLogs() {
+        objectWillChange.send()
         logs.removeAll()
         saveTimer?.invalidate()
         saveTimer = nil
@@ -173,7 +176,10 @@ class LogManager: ObservableObject {
             return nil
         }
         
-        let appDirURL = appSupportURL.appendingPathComponent(Bundle.main.bundleIdentifier ?? "v2rayMui")
+        var appDirURL = appSupportURL.appendingPathComponent(Bundle.main.bundleIdentifier ?? "v2rayMui")
+        if AppEnvironment.isRunningInXcode {
+            appDirURL.appendPathComponent("dev")
+        }
         let v2rayDirURL = appDirURL.appendingPathComponent("V2ray")
         return v2rayDirURL.appendingPathComponent("v2ray_logs.json")
     }
@@ -304,7 +310,10 @@ class LogManager: ObservableObject {
                 let loadedLogs = try decoder.decode([LogEntry].self, from: data)
                 
                 DispatchQueue.main.async {
-                    self.logs = Array(loadedLogs.suffix(self.maxLogEntries))
+                    // 合并而非覆盖，避免已显示的新日志被异步加载的旧日志覆盖导致“先显示再消失”
+                    self.objectWillChange.send()
+                    let merged = (loadedLogs + self.logs)
+                    self.logs = Array(merged.suffix(self.maxLogEntries))
                 }
             } catch {
                 print("加载日志失败: \(error)")

@@ -90,7 +90,10 @@ class SettingsManager: ObservableObject {
             return
         }
         
-        let appDirURL = appSupportURL.appendingPathComponent(Bundle.main.bundleIdentifier ?? "v2rayMui")
+        var appDirURL = appSupportURL.appendingPathComponent(Bundle.main.bundleIdentifier ?? "v2rayMui")
+        if AppEnvironment.isRunningInXcode {
+            appDirURL.appendPathComponent("dev")
+        }
         settingsFileURL = appDirURL.appendingPathComponent("settings.json")
         
         // 创建目录（如果不存在）
@@ -115,6 +118,8 @@ class SettingsManager: ObservableObject {
             
             DispatchQueue.main.async {
                 self.settings = loadedSettings
+                // 通知：设置已加载
+                NotificationCenter.default.post(name: .settingsLoaded, object: nil)
             }
             
             // 同步到UserDefaults（保持兼容性）
@@ -126,6 +131,8 @@ class SettingsManager: ObservableObject {
             // 如果加载失败，从UserDefaults加载现有设置
             loadFromUserDefaults()
             saveSettings() // 保存到JSON文件
+            // 通知：设置已加载（采用UserDefaults回退）
+            NotificationCenter.default.post(name: .settingsLoaded, object: nil)
         }
     }
     
@@ -205,6 +212,7 @@ class SettingsManager: ObservableObject {
         objectWillChange.send()
         settings.autoConnect = value
         saveSettings()
+        NotificationCenter.default.post(name: .autoConnectChanged, object: value)
     }
     
     func updateStartAtLogin(_ value: Bool) {
@@ -217,6 +225,8 @@ class SettingsManager: ObservableObject {
         objectWillChange.send()
         settings.showInDock = value
         saveSettings()
+        // 广播通知，便于 AppDelegate 等处响应 Dock 可见性变化
+        NotificationCenter.default.post(name: .showInDockChanged, object: value)
     }
     
     func updateSocksLocalPort(_ value: Int) {
@@ -342,4 +352,11 @@ class SettingsManager: ObservableObject {
     var settingsFilePath: String? {
         return settingsFileURL?.path
     }
+}
+
+// MARK: - 通知扩展
+extension Notification.Name {
+    static let showInDockChanged = Notification.Name("showInDockChanged")
+    static let autoConnectChanged = Notification.Name("autoConnectChanged")
+    static let settingsLoaded = Notification.Name("settingsLoaded")
 }

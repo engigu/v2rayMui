@@ -21,7 +21,7 @@ class ProxyManager {
     private func getAuthorization() -> AuthorizationRef? {
         if let auth = authorizationRef { return auth }
         var authRef: AuthorizationRef?
-        var rightName = "system.preferences.network"
+        let rightName = "system.preferences.network"
         var item = rightName.withCString { ptr -> AuthorizationItem in
             AuthorizationItem(name: ptr, valueLength: 0, value: nil, flags: 0)
         }

@@ -277,7 +277,10 @@ class V2RayManager: ObservableObject {
             return
         }
         
-        let appDirURL = appSupportURL.appendingPathComponent(Bundle.main.bundleIdentifier ?? "v2rayMui")
+        var appDirURL = appSupportURL.appendingPathComponent(Bundle.main.bundleIdentifier ?? "v2rayMui")
+        if AppEnvironment.isRunningInXcode {
+            appDirURL.appendPathComponent("dev")
+        }
         let v2rayDirURL = appDirURL.appendingPathComponent("V2ray")
         configFileURL = v2rayDirURL.appendingPathComponent("config.json")
         

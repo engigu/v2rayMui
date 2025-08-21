@@ -105,7 +105,7 @@ struct LogView: View {
             Divider()
             
             // 日志列表
-            if filteredLogs.isEmpty {
+            if filteredLogs.isEmpty && logManager.isLogging == false {
                 VStack {
                     Spacer()
                     

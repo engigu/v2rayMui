@@ -239,17 +239,17 @@ struct SettingsView: View {
                         .foregroundColor(binaryStatusColor)
                 }
                 
-                HStack(spacing: 12) {
-                    Button("检查更新") {
-                        checkV2RayUpdate()
-                    }
-                    .buttonStyle(.bordered)
+                // HStack(spacing: 12) {
+                //     Button("检查更新") {
+                //         checkV2RayUpdate()
+                //     }
+                //     .buttonStyle(.bordered)
                     
-                    Button("重新安装核心") {
-                        reinstallV2Ray()
-                    }
-                    .buttonStyle(.bordered)
-                }
+                //     Button("重新安装核心") {
+                //         reinstallV2Ray()
+                //     }
+                //     .buttonStyle(.bordered)
+                // }
             }
             
             // 网络测试
@@ -325,10 +325,10 @@ struct SettingsView: View {
                 }
                 
                 HStack(spacing: 12) {
-                    Link("GitHub项目", destination: URL(string: "https://github.com/XTLS/Xray-core")!)
+                    Link("GitHub项目", destination: URL(string: "https://github.com/engigu/v2rayMui")!)
                         .buttonStyle(.bordered)
                     
-                    Link("官方网站", destination: URL(string: "https://www.v2ray.com")!)
+                    Link("v2ray官方网站", destination: URL(string: "https://www.v2ray.com")!)
                         .buttonStyle(.bordered)
                 }
             }

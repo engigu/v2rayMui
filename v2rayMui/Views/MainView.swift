@@ -478,9 +478,9 @@ struct ConfigQuickSelectButton: View {
 
 // MARK: - 侧边栏项目枚举
 enum SidebarItem: String, CaseIterable {
-    case configs = "配置管理"
-    case logs = "连接日志"
-    case routing = "路由设置"
+    case configs = "配置"
+    case logs = "日志"
+    case routing = "路由"
     case settings = "设置"
     
     var icon: String {
@@ -518,11 +518,7 @@ struct SidebarView: View {
                                 Circle()
                                     .fill(statusColor.opacity(0.2))
                                     .frame(width: 32, height: 32)
-                                Circle()
-                                    .fill(statusColor)
-                                    .frame(width: 16, height: 16)
-                                    .scaleEffect(v2rayManager.connectionStatus == .connecting ? 1.2 : 1.0)
-                                    .animation(.easeInOut(duration: 0.8).repeatForever(autoreverses: true), value: v2rayManager.connectionStatus == .connecting)
+                                PulsingDot(isActive: v2rayManager.connectionStatus == .connecting, color: statusColor)
                             }
                             
                             VStack(alignment: .leading, spacing: 2) {
@@ -699,6 +695,38 @@ struct SidebarView: View {
     private var connectionDuration: String {
         // 这里应该计算实际的连接时长
         return "00:15:32"
+    }
+}
+
+// MARK: - 细分组件：脉冲点
+struct PulsingDot: View {
+    let isActive: Bool
+    let color: Color
+    @State private var scale: CGFloat = 1.0
+
+    var body: some View {
+        Circle()
+            .fill(color)
+            .frame(width: 16, height: 16)
+            .scaleEffect(scale)
+            .onChange(of: isActive) { _, new in
+                if new {
+                    start()
+                } else {
+                    withAnimation(.easeOut(duration: 0.2)) {
+                        scale = 1.0
+                    }
+                }
+            }
+            .onAppear {
+                if isActive { start() }
+            }
+    }
+
+    private func start() {
+        withAnimation(.easeInOut(duration: 0.8).repeatForever(autoreverses: true)) {
+            scale = 1.2
+        }
     }
 }
 

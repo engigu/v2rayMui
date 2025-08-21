@@ -43,8 +43,53 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // 初始化状态栏
         statusBarManager.showStatusBar()
         
-        // 设置应用不在Dock中显示（可选）
-        // NSApp.setActivationPolicy(.accessory)
+        // 根据设置控制 Dock 可见性
+        NSApp.setActivationPolicy(settingsManager.settings.showInDock ? .regular : .accessory)
+
+        // 监听 Dock 显示设置变化
+        NotificationCenter.default.addObserver(forName: .showInDockChanged, object: nil, queue: .main) { [weak self] note in
+            guard let show = note.object as? Bool else { return }
+            NSApp.setActivationPolicy(show ? .regular : .accessory)
+            // 若需要显示 Dock，确保主窗口可见
+            if show, let window = NSApplication.shared.windows.first {
+                window.makeKeyAndOrderFront(nil)
+                NSApplication.shared.activate(ignoringOtherApps: true)
+            }
+        }
+
+        // 启动时自动连接（若设置开启且有选中配置）
+        if settingsManager.settings.autoConnect, let config = ConfigManager.shared.selectedConfig {
+            V2RayManager.shared.connect(with: config)
+        }
+
+        // 如果设置尚未完全加载，等待加载完成后执行一次检查
+        NotificationCenter.default.addObserver(forName: .settingsLoaded, object: nil, queue: .main) { _ in
+            if SettingsManager.shared.settings.autoConnect,
+               V2RayManager.shared.connectionStatus == .disconnected,
+               let cfg = ConfigManager.shared.selectedConfig {
+                V2RayManager.shared.connect(with: cfg)
+            }
+        }
+
+        // 监听自动连接开关变化
+        NotificationCenter.default.addObserver(forName: .autoConnectChanged, object: nil, queue: .main) { note in
+            guard let enabled = note.object as? Bool else { return }
+            let v2 = V2RayManager.shared
+            if enabled, v2.connectionStatus == .disconnected, let cfg = ConfigManager.shared.selectedConfig {
+                v2.connect(with: cfg)
+            } else if !enabled, v2.connectionStatus.isConnected {
+                v2.disconnect()
+            }
+        }
+
+        // 当用户更换选中配置，若自动连接开启且当前未连接，则自动连接新配置
+        NotificationCenter.default.addObserver(forName: .selectedConfigChanged, object: nil, queue: .main) { note in
+            let settings = SettingsManager.shared.settings
+            let v2 = V2RayManager.shared
+            if settings.autoConnect, v2.connectionStatus == .disconnected, let cfg = ConfigManager.shared.selectedConfig {
+                v2.connect(with: cfg)
+            }
+        }
         
         // 设置窗口关闭行为和固定大小
         if let window = NSApplication.shared.windows.first {
@@ -103,6 +148,9 @@ class WindowDelegate: NSObject, NSWindowDelegate {
     func windowShouldClose(_ sender: NSWindow) -> Bool {
         // 点击关闭按钮时隐藏窗口而不是退出应用
         sender.orderOut(nil)
+        // 如用户设置不显示在Dock，则关闭窗口后隐藏Dock，否则保持显示
+        let showInDock = SettingsManager.shared.settings.showInDock
+        NSApp.setActivationPolicy(showInDock ? .regular : .accessory)
         return false
     }
     
@@ -122,3 +170,4 @@ class WindowDelegate: NSObject, NSWindowDelegate {
         }
     }
 }
+

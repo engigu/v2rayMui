@@ -68,6 +68,9 @@ class ConfigManager: ObservableObject {
         if let selectedConfig = config {
             updateV2RayConfig(with: selectedConfig)
         }
+
+        // 广播选择变化，便于自动连接逻辑响应
+        NotificationCenter.default.post(name: .selectedConfigChanged, object: config)
     }
     
     /// 更新 V2Ray 的 config.json 文件
@@ -291,7 +294,10 @@ class ConfigManager: ObservableObject {
         guard let appSupportURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else {
             return nil
         }
-        let appDirURL = appSupportURL.appendingPathComponent(Bundle.main.bundleIdentifier ?? "v2rayMui")
+        var appDirURL = appSupportURL.appendingPathComponent(Bundle.main.bundleIdentifier ?? "v2rayMui")
+        if AppEnvironment.isRunningInXcode {
+            appDirURL.appendPathComponent("dev")
+        }
         return appDirURL
     }
 
@@ -441,4 +447,8 @@ class ConfigManager: ObservableObject {
             config.name == name && config.id != excludingId
         }
     }
+}
+
+extension Notification.Name {
+    static let selectedConfigChanged = Notification.Name("selectedConfigChanged")
 }

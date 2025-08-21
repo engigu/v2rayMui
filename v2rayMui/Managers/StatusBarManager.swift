@@ -302,12 +302,16 @@ class StatusBarManager: ObservableObject {
         if let window = NSApplication.shared.windows.first {
             if window.isVisible {
                 window.orderOut(nil)
+                // 隐藏后切换为 accessory，隐藏 Dock 图标
+                NSApp.setActivationPolicy(.accessory)
                 if let menuItem = statusItem?.menu?.items.first(where: { $0.title.contains("窗口") }) {
                     menuItem.title = "显示主窗口"
                 }
             } else {
                 window.makeKeyAndOrderFront(nil)
                 NSApplication.shared.activate(ignoringOtherApps: true)
+                // 显示主窗口时，恢复 Dock 图标
+                NSApp.setActivationPolicy(.regular)
                 if let menuItem = statusItem?.menu?.items.first(where: { $0.title.contains("窗口") }) {
                     menuItem.title = "隐藏主窗口"
                 }
