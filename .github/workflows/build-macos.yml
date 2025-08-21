@@ -1,0 +1,69 @@
+name: Build macOS App (manual)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: |
+          xcodebuild -version
+          sw_vers
+
+      # - name: Prepare Xray binary into Resources
+      #   run: |
+      #     chmod +x ./scripts/download_xray.sh
+      #     ./scripts/download_xray.sh
+
+      - name: Build Release (unsigned)
+        run: |
+          set -euo pipefail
+          xcodebuild \
+            -project v2rayMui.xcodeproj \
+            -scheme v2rayMui \
+            -configuration Release \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
+
+      - name: Locate app
+        id: locate
+        run: |
+          APP_PATH="build/Build/Products/Release/v2rayMui.app"
+          if [ ! -d "$APP_PATH" ]; then
+            echo "App not found at $APP_PATH" >&2
+            exit 1
+          fi
+          # Ensure resource binary is executable
+          chmod +x "$APP_PATH/Contents/Resources/v2ray-core/v2ray" || true
+          echo "app_path=$APP_PATH" >> $GITHUB_OUTPUT
+
+      - name: Package zip
+        run: |
+          set -euo pipefail
+          APP_PATH="${{ steps.locate.outputs.app_path }}"
+          ZIP_NAME="v2rayMui-macos-${GITHUB_SHA::7}.zip"
+          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" "$ZIP_NAME"
+          echo "Created $ZIP_NAME"
+
+      - name: Package dmg
+        run: |
+          set -euo pipefail
+          APP_PATH="${{ steps.locate.outputs.app_path }}"
+          DMG_NAME="v2rayMui-macos-${GITHUB_SHA::7}.dmg"
+          hdiutil create -volname "v2rayMui" -srcfolder "$APP_PATH" -ov -format UDZO "$DMG_NAME"
+          echo "Created $DMG_NAME"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2rayMui-macos-build-${{ github.sha }}
+          path: |
+            v2rayMui-macos-*.zip
+            v2rayMui-macos-*.dmg
+
+
