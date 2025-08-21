@@ -99,8 +99,8 @@ class V2RayManager: ObservableObject {
     /// 断开连接
     func disconnect() {
         LogManager.shared.addLog("断开连接", level: .info, source: .app)
-        // 先关闭系统代理
-        ProxyManager.shared.disableProxies()
+        // // 先关闭系统代理
+        // ProxyManager.shared.disableProxies()
         stopV2RayProcess()
         connectionStatus = .disconnected
         currentConfig = nil
