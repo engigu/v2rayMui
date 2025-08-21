@@ -72,7 +72,7 @@ struct HomeContentView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 16)
         }
-        .navigationTitle("V2Ray 客户端")
+        .navigationTitle(titleText)
         .background(Color(NSColor.controlBackgroundColor).opacity(0.3))
     }
 }
@@ -164,6 +164,12 @@ struct ConnectionStatusView: View {
         case .error:
             return "exclamationmark.triangle"
         }
+    }
+}
+
+private extension HomeContentView {
+    var titleText: String {
+        AppEnvironment.isRunningInXcode ? "V2Ray 客户端 · dev" : "V2Ray 客户端"
     }
 }
 
@@ -411,56 +417,55 @@ struct ConfigQuickSelectButton: View {
     @ObservedObject private var configManager = ConfigManager.shared
     
     var body: some View {
-        Button(action: {
-            withAnimation(.easeInOut(duration: 0.2)) {
+        let tap = TapGesture().onEnded {
+            withAnimation(.easeInOut(duration: 0.12)) {
                 configManager.selectConfig(config)
             }
-        }) {
-            VStack(spacing: 8) {
-                HStack {
-                    Circle()
-                        .fill(Color.blue)
-                        .frame(width: 22, height: 22)
-                        .overlay(
-                            Image(systemName: "server.rack")
-                                .font(.system(size: 9, weight: .medium))
-                                .foregroundColor(.white)
-                        )
-                    
-                    Spacer()
-                    
-                    if isSelected {
-                        Image(systemName: "checkmark.circle.fill")
-                            .font(.system(size: 12, weight: .medium))
-                            .foregroundColor(.green)
-                    }
-                }
+        }
+        
+        return VStack(spacing: 8) {
+            HStack {
+                Circle()
+                    .fill(Color.blue)
+                    .frame(width: 22, height: 22)
+                    .overlay(
+                        Image(systemName: "server.rack")
+                            .font(.system(size: 9, weight: .medium))
+                            .foregroundColor(.white)
+                    )
                 
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(config.name)
-                        .font(.caption)
-                        .fontWeight(.medium)
-                        .foregroundColor(.primary)
-                        .lineLimit(1)
-                    
-                    Text("\(config.serverAddress):\(config.serverPort)")
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
-                        .lineLimit(1)
-                    
-                    Text(config.network.uppercased())
-                        .font(.caption2)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(Color.blue.opacity(0.15))
-                        .foregroundColor(.blue)
-                        .clipShape(RoundedRectangle(cornerRadius: 3))
+                Spacer()
+                
+                if isSelected {
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(.green)
                 }
             }
-            .frame(width: 110, height: 75)
-            .padding(10)
+            
+            VStack(alignment: .leading, spacing: 3) {
+                Text(config.name)
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundColor(.primary)
+                    .lineLimit(1)
+                
+                Text("\(config.serverAddress):\(config.serverPort)")
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+                    .lineLimit(1)
+                
+                Text(config.network.uppercased())
+                    .font(.caption2)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(Color.blue.opacity(0.15))
+                    .foregroundColor(.blue)
+                    .clipShape(RoundedRectangle(cornerRadius: 3))
+            }
         }
-        .buttonStyle(PlainButtonStyle())
+        .frame(width: 110, height: 75)
+        .padding(10)
         .background(
             RoundedRectangle(cornerRadius: 8)
                 .fill(isSelected ? Color.blue.opacity(0.1) : Color(NSColor.controlBackgroundColor))
@@ -469,6 +474,8 @@ struct ConfigQuickSelectButton: View {
                         .stroke(isSelected ? Color.blue.opacity(0.3) : Color.primary.opacity(0.1), lineWidth: 0.5)
                 )
         )
+        .contentShape(RoundedRectangle(cornerRadius: 8))
+        .highPriorityGesture(tap)
     }
     
     private var isSelected: Bool {

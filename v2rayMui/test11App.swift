@@ -46,6 +46,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // 根据设置控制 Dock 可见性
         NSApp.setActivationPolicy(settingsManager.settings.showInDock ? .regular : .accessory)
 
+        // 在 Xcode 调试运行时，为 Dock 图标添加 dev 标记
+        if AppEnvironment.isRunningInXcode {
+            NSApp.dockTile.badgeLabel = "dev"
+        }
+
         // 监听 Dock 显示设置变化
         NotificationCenter.default.addObserver(forName: .showInDockChanged, object: nil, queue: .main) { [weak self] note in
             guard let show = note.object as? Bool else { return }
@@ -54,6 +59,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if show, let window = NSApplication.shared.windows.first {
                 window.makeKeyAndOrderFront(nil)
                 NSApplication.shared.activate(ignoringOtherApps: true)
+            }
+            // 根据可见性与运行环境更新 Dock 标记
+            if AppEnvironment.isRunningInXcode {
+                NSApp.dockTile.badgeLabel = show ? "dev" : nil
             }
         }
 

@@ -20,6 +20,12 @@ class V2RayManager: ObservableObject {
     private var v2rayProcess: Process?
     private var configFileURL: URL?
     private let fileManager = FileManager.default
+    // 管道读句柄（统一关闭，避免竞态导致的双重关闭崩溃）
+    private var outputHandle: FileHandle?
+    private var errorHandle: FileHandle?
+    private var didClosePipes: Bool = false
+    // 停止流程标记，防止断开→立刻连接竞态
+    private var isStopping: Bool = false
     
     private init() {
         setupConfigDirectory()
@@ -60,7 +66,8 @@ class V2RayManager: ObservableObject {
     
     /// 连接到V2Ray服务器
     func connect(with config: V2RayConfig) {
-        guard connectionStatus != .connecting else { return }
+        // 若正在停止或处于连接中，忽略新的连接请求
+        guard connectionStatus != .connecting, !isStopping else { return }
         
         connectionStatus = .connecting
         currentConfig = config
@@ -144,11 +151,13 @@ class V2RayManager: ObservableObject {
         v2rayProcess?.standardOutput = outputPipe
         v2rayProcess?.standardError = errorPipe
         
-        let outputHandle = outputPipe.fileHandleForReading
-        let errorHandle = errorPipe.fileHandleForReading
+        // 保存句柄供统一关闭
+        outputHandle = outputPipe.fileHandleForReading
+        errorHandle = errorPipe.fileHandleForReading
+        didClosePipes = false
         
         // 监听输出（使用弱引用避免循环引用）
-        outputHandle.readabilityHandler = { [weak self] handle in
+        outputHandle?.readabilityHandler = { [weak self] handle in
             guard self != nil else { return }
             let data = handle.availableData
             if !data.isEmpty {
@@ -157,7 +166,7 @@ class V2RayManager: ObservableObject {
         }
         
         // 监听错误输出（使用弱引用避免循环引用）
-        errorHandle.readabilityHandler = { [weak self] handle in
+        errorHandle?.readabilityHandler = { [weak self] handle in
             guard self != nil else { return }
             let data = handle.availableData
             if !data.isEmpty {
@@ -178,16 +187,12 @@ class V2RayManager: ObservableObject {
                 }
             }
             
-            // 清理文件句柄
-            outputHandle.readabilityHandler = nil
-            errorHandle.readabilityHandler = nil
-            
-            // 关闭文件句柄
-            try? outputHandle.close()
-            try? errorHandle.close()
+            // 统一关闭句柄（只执行一次）
+            self?.closePipesOnce()
             
             DispatchQueue.main.async {
                 self?.v2rayProcess = nil
+                self?.isStopping = false
             }
         }
         
@@ -208,17 +213,10 @@ class V2RayManager: ObservableObject {
     /// 停止V2Ray进程
     private func stopV2RayProcess() {
         guard let process = v2rayProcess else { return }
+        isStopping = true
         
-        // 清理文件句柄
-        if let outputPipe = process.standardOutput as? Pipe {
-            outputPipe.fileHandleForReading.readabilityHandler = nil
-            try? outputPipe.fileHandleForReading.close()
-        }
-        
-        if let errorPipe = process.standardError as? Pipe {
-            errorPipe.fileHandleForReading.readabilityHandler = nil
-            try? errorPipe.fileHandleForReading.close()
-        }
+        // 立即停止读取并尝试统一关闭（若终止回调再触发，会被防重）
+        closePipesOnce()
         
         // 终止进程
         process.terminate()
@@ -241,6 +239,22 @@ class V2RayManager: ObservableObject {
         }
         
         v2rayProcess = nil
+    }
+
+    /// 仅关闭一次管道，避免双重关闭导致崩溃
+    private func closePipesOnce() {
+        guard !didClosePipes else { return }
+        didClosePipes = true
+        if let oh = outputHandle {
+            oh.readabilityHandler = nil
+            try? oh.close()
+        }
+        if let eh = errorHandle {
+            eh.readabilityHandler = nil
+            try? eh.close()
+        }
+        outputHandle = nil
+        errorHandle = nil
     }
     
     /// 获取V2Ray可执行文件路径
