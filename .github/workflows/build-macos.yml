@@ -50,13 +50,19 @@ jobs:
           ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" "$ZIP_NAME"
           echo "Created $ZIP_NAME"
 
-      - name: Package dmg
+      - name: Package drag-and-drop DMG
         run: |
           set -euo pipefail
           APP_PATH="${{ steps.locate.outputs.app_path }}"
           DMG_NAME="v2rayMui-macos-${GITHUB_SHA::7}.dmg"
-          hdiutil create -volname "v2rayMui" -srcfolder "$APP_PATH" -ov -format UDZO "$DMG_NAME"
-          echo "Created $DMG_NAME"
+          DMG_ROOT="build/dmgroot"
+          rm -rf "$DMG_ROOT"
+          mkdir -p "$DMG_ROOT"
+          # Copy app bundle and add Applications symlink for drag-and-drop install
+          cp -R "$APP_PATH" "$DMG_ROOT/"
+          ln -s /Applications "$DMG_ROOT/Applications"
+          hdiutil create -fs HFS+ -volname "v2rayMui" -srcfolder "$DMG_ROOT" -ov -format UDZO "$DMG_NAME"
+          echo "Created $DMG_NAME with Applications symlink"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
