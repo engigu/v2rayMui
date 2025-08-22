@@ -66,6 +66,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
 
+        // 当应用重新变为活跃时，确保在 Xcode 环境下恢复 dev 徽标
+        NotificationCenter.default.addObserver(forName: NSApplication.didBecomeActiveNotification, object: nil, queue: .main) { _ in
+            if AppEnvironment.isRunningInXcode, NSApp.activationPolicy() == .regular {
+                NSApp.dockTile.badgeLabel = "dev"
+            }
+        }
+
         // 启动时自动连接（若设置开启且有选中配置）
         if settingsManager.settings.autoConnect, let config = ConfigManager.shared.selectedConfig {
             V2RayManager.shared.connect(with: config)
@@ -140,6 +147,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if let window = NSApplication.shared.windows.first {
                 window.makeKeyAndOrderFront(nil)
             }
+        }
+        // 确保在 Xcode 环境下，点击 Dock 图标后仍显示 dev 徽标
+        if AppEnvironment.isRunningInXcode, NSApp.activationPolicy() == .regular {
+            NSApp.dockTile.badgeLabel = "dev"
         }
         return true
     }

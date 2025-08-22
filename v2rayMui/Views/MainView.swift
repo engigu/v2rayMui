@@ -612,6 +612,17 @@ struct SidebarView: View {
                                     .fontWeight(.medium)
                                     .foregroundColor(.primary)
                                 }
+
+                                HStack {
+                                    Label("路由模式", systemImage: "point.topleft.down.curvedto.point.bottomright.up")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                    Spacer()
+                                    Text(settingsManager.settings.routingMode.displayName)
+                                        .font(.caption)
+                                        .fontWeight(.medium)
+                                        .foregroundColor(.primary)
+                                }
                             }
                         }
                     }

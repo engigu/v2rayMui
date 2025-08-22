@@ -1,0 +1,212 @@
+name: Release macOS App
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag name to create a release for (e.g., v1.0.0)'
+        required: false
+      prerelease:
+        description: 'Mark release as prerelease'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write
+
+jobs:
+  build-arm64:
+    runs-on: macos-14  # Apple Silicon runner
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve tag name
+        run: |
+          if [ -n "${{ github.event.inputs.tag_name }}" ]; then
+            echo "TAG_NAME=${{ github.event.inputs.tag_name }}" >> $GITHUB_ENV
+          else
+            echo "TAG_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+          fi
+          echo "IS_PRERELEASE=${{ github.event.inputs.prerelease || 'false' }}" >> $GITHUB_ENV
+
+      - name: Show Xcode version
+        run: |
+          xcodebuild -version
+          sw_vers
+
+      - name: Prepare Xray binary into Resources (arm64)
+        run: |
+          chmod +x ./scripts/download_xray.sh || true
+          DOWNLOAD_ARCH=arm64 ./scripts/download_xray.sh || true
+
+      - name: Build Release (unsigned, arm64)
+        run: |
+          set -euo pipefail
+          xcodebuild \
+            -project v2rayMui.xcodeproj \
+            -scheme v2rayMui \
+            -configuration Release \
+            -derivedDataPath build \
+            -arch arm64 \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
+
+      - name: Locate app
+        id: locate
+        run: |
+          APP_PATH="build/Build/Products/Release/v2rayMui.app"
+          if [ ! -d "$APP_PATH" ]; then
+            echo "App not found at $APP_PATH" >&2
+            exit 1
+          fi
+          chmod +x "$APP_PATH/Contents/Resources/v2ray-core/v2ray" || true
+          echo "app_path=$APP_PATH" >> $GITHUB_OUTPUT
+
+      - name: Package zip (arm64)
+        run: |
+          set -euo pipefail
+          APP_PATH="${{ steps.locate.outputs.app_path }}"
+          ZIP_NAME="v2rayMui-macos-arm64-${{ env.TAG_NAME }}.zip"
+          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" "$ZIP_NAME"
+          echo "Created $ZIP_NAME"
+
+      - name: Package drag-and-drop DMG (arm64)
+        run: |
+          set -euo pipefail
+          APP_PATH="${{ steps.locate.outputs.app_path }}"
+          DMG_NAME="v2rayMui-macos-arm64-${{ env.TAG_NAME }}.dmg"
+          DMG_ROOT="build/dmgroot"
+          rm -rf "$DMG_ROOT"
+          mkdir -p "$DMG_ROOT"
+          cp -R "$APP_PATH" "$DMG_ROOT/"
+          ln -s /Applications "$DMG_ROOT/Applications"
+          hdiutil create -fs HFS+ -volname "v2rayMui" -srcfolder "$DMG_ROOT" -ov -format UDZO "$DMG_NAME"
+          echo "Created $DMG_NAME"
+
+      - name: Upload artifacts (arm64)
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2rayMui-macos-arm64-${{ env.TAG_NAME }}
+          path: |
+            v2rayMui-macos-arm64-${{ env.TAG_NAME }}.zip
+            v2rayMui-macos-arm64-${{ env.TAG_NAME }}.dmg
+
+  build-x86_64:
+    runs-on: macos-13  # Intel runner
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve tag name
+        run: |
+          if [ -n "${{ github.event.inputs.tag_name }}" ]; then
+            echo "TAG_NAME=${{ github.event.inputs.tag_name }}" >> $GITHUB_ENV
+          else
+            echo "TAG_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+          fi
+          echo "IS_PRERELEASE=${{ github.event.inputs.prerelease || 'false' }}" >> $GITHUB_ENV
+
+      - name: Show Xcode version
+        run: |
+          xcodebuild -version
+          sw_vers
+
+      - name: Prepare Xray binary into Resources (x86_64)
+        run: |
+          chmod +x ./scripts/download_xray.sh || true
+          DOWNLOAD_ARCH=x86_64 ./scripts/download_xray.sh || true
+
+      - name: Build Release (unsigned, x86_64)
+        run: |
+          set -euo pipefail
+          xcodebuild \
+            -project v2rayMui.xcodeproj \
+            -scheme v2rayMui \
+            -configuration Release \
+            -derivedDataPath build \
+            -arch x86_64 \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
+
+      - name: Locate app
+        id: locate_x86
+        run: |
+          APP_PATH="build/Build/Products/Release/v2rayMui.app"
+          if [ ! -d "$APP_PATH" ]; then
+            echo "App not found at $APP_PATH" >&2
+            exit 1
+          fi
+          chmod +x "$APP_PATH/Contents/Resources/v2ray-core/v2ray" || true
+          echo "app_path=$APP_PATH" >> $GITHUB_OUTPUT
+
+      - name: Package zip (x86_64)
+        run: |
+          set -euo pipefail
+          APP_PATH="${{ steps.locate_x86.outputs.app_path }}"
+          ZIP_NAME="v2rayMui-macos-x86_64-${{ env.TAG_NAME }}.zip"
+          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" "$ZIP_NAME"
+          echo "Created $ZIP_NAME"
+
+      - name: Package drag-and-drop DMG (x86_64)
+        run: |
+          set -euo pipefail
+          APP_PATH="${{ steps.locate_x86.outputs.app_path }}"
+          DMG_NAME="v2rayMui-macos-x86_64-${{ env.TAG_NAME }}.dmg"
+          DMG_ROOT="build/dmgroot"
+          rm -rf "$DMG_ROOT"
+          mkdir -p "$DMG_ROOT"
+          cp -R "$APP_PATH" "$DMG_ROOT/"
+          ln -s /Applications "$DMG_ROOT/Applications"
+          hdiutil create -fs HFS+ -volname "v2rayMui" -srcfolder "$DMG_ROOT" -ov -format UDZO "$DMG_NAME"
+          echo "Created $DMG_NAME"
+
+      - name: Upload artifacts (x86_64)
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2rayMui-macos-x86_64-${{ env.TAG_NAME }}
+          path: |
+            v2rayMui-macos-x86_64-${{ env.TAG_NAME }}.zip
+            v2rayMui-macos-x86_64-${{ env.TAG_NAME }}.dmg
+
+  release:
+    needs: [build-arm64, build-x86_64]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+
+      - name: List artifacts
+        run: |
+          ls -R dist
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.event.inputs.tag_name || github.ref_name }}
+          draft: false
+          prerelease: ${{ github.event.inputs.prerelease || false }}
+          files: |
+            dist/**/v2rayMui-macos-*.zip
+            dist/**/v2rayMui-macos-*.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+          draft: false
+          prerelease: ${{ env.IS_PRERELEASE }}
+          files: |
+            v2rayMui-macos-${{ env.TAG_NAME }}.zip
+            v2rayMui-macos-${{ env.TAG_NAME }}.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
