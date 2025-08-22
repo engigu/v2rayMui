@@ -4,6 +4,10 @@
 ![](https://github.com/user-attachments/assets/1ac35afa-d023-47ab-aed8-de838599155f)
 ![](https://github.com/user-attachments/assets/f05b10a4-5f45-48bd-a53e-a673b3b06035)
 
+### 功能支持进度
+- [] vless\ssr 待测试
+- [x] vmess连接
+
 ### 主要特性
 - 一键连接/断开：主界面和状态栏均可控制连接。
 - 自动系统代理：连接后自动启用 HTTP/HTTPS/SOCKS 代理；断开/退出自动关闭。
