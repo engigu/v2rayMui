@@ -5,7 +5,7 @@
 ![](https://github.com/user-attachments/assets/f05b10a4-5f45-48bd-a53e-a673b3b06035)
 
 ### 功能支持进度
-- [] vless\ssr 待测试
+- [ ] vless、ssr 待测试
 - [x] vmess连接
 
 ### 主要特性
