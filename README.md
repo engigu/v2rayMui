@@ -1,6 +1,8 @@
 ## v2rayMui
 
 一个基于 SwiftUI 的 macOS V2Ray/Xray 图形客户端，支持一键连接、自动系统代理、状态栏控制、可视化日志与多路由模式。支持 Xcode 调试环境与用户环境分离存储，提供一键下载 Xray 二进制与 GitHub Actions 打包。
+![](https://github.com/user-attachments/assets/1ac35afa-d023-47ab-aed8-de838599155f)
+![](https://github.com/user-attachments/assets/f05b10a4-5f45-48bd-a53e-a673b3b06035)
 
 ### 主要特性
 - 一键连接/断开：主界面和状态栏均可控制连接。
