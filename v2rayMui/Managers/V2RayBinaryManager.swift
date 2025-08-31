@@ -12,7 +12,7 @@ class V2RayBinaryManager {
     
     private init() {}
     
-    /// 获取外置v2ray二进制文件路径
+    /// 获取外置xray二进制文件路径
     private func getExternalBinaryPath() -> String? {
         let libraryPath = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first
         guard let libraryPath = libraryPath else {
@@ -30,16 +30,16 @@ class V2RayBinaryManager {
         if AppEnvironment.isRunningInXcode {
             base.appendPathComponent("dev")
         }
-        let externalPath = base.appendingPathComponent("V2ray/v2ray").path
+        let externalPath = base.appendingPathComponent("V2ray/xray").path
         return externalPath
     }
     
-    /// v2ray二进制文件路径（优先外置路径，其次内置路径）
+    /// xray二进制文件路径（优先外置路径，其次内置路径）
     lazy var binaryPath: String? = {
         // 1. 优先检查外置路径
         if let externalPath = getExternalBinaryPath() {
             if FileManager.default.fileExists(atPath: externalPath) {
-                LogManager.shared.addLog("使用自定义的v2ray二进制文件: \(externalPath)", level: .info, source: .app)
+                LogManager.shared.addLog("使用自定义的xray二进制文件: \(externalPath)", level: .info, source: .app)
                 return externalPath
             }
         }
@@ -50,18 +50,18 @@ class V2RayBinaryManager {
             return nil
         }
         
-        // 优先 Resources/v2ray-core/v2ray，其次 Resources/v2ray（向下兼容）
+        // 优先 Resources/xray-core/xray，其次 Resources/xray（向下兼容）
         let candidates = [
-            bundlePath + "/v2ray-core/v2ray",
-            bundlePath + "/v2ray",
+            bundlePath + "/xray-core/xray",
+            bundlePath + "/xray",
         ]
         for path in candidates {
             if FileManager.default.fileExists(atPath: path) {
-                LogManager.shared.addLog("使用内置v2ray二进制文件: \(path)", level: .info, source: .app)
+                LogManager.shared.addLog("使用内置xray二进制文件: \(path)", level: .info, source: .app)
                 return path
             }
         }
-        LogManager.shared.addLog("未在内置路径找到v2ray二进制文件（尝试: \(candidates.joined(separator: ", "))）", level: .warning, source: .app)
+        LogManager.shared.addLog("未在内置路径找到xray二进制文件（尝试: \(candidates.joined(separator: ", "))）", level: .warning, source: .app)
         return nil
     }()
     

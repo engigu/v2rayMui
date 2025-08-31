@@ -3,7 +3,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-TARGET_DIR="$ROOT_DIR/v2rayMui/Resources/v2ray-core"
+TARGET_DIR="$ROOT_DIR/v2rayMui/Resources/xray-core"
 TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TMP_DIR"' EXIT
 
@@ -34,11 +34,8 @@ if [[ -z "${BIN:-}" || ! -f "$BIN" ]]; then
   exit 1
 fi
 
-cp "$TMP_DIR"/* "$TARGET_DIR"
-mv "$TARGET_DIR/Xray" "$TARGET_DIR/v2ray"
+install -m 755 "$BIN" "$TARGET_DIR/xray"
 rm -rf "$TMP_DIR"
-rm -rf "$TARGET_DIR/xray.zip"
-chmod 755 "$TARGET_DIR/v2ray"
-echo "$TARGET_DIR/v2ray"
+echo "$TARGET_DIR/xray"
 
 

@@ -73,11 +73,17 @@ class LogManager: ObservableObject {
     
     /// 清理内存中的过期日志
     private func cleanupMemoryLogs() {
-        if self.logs.count > self.maxLogEntries {
-            let excessCount = self.logs.count - self.maxLogEntries
-            DispatchQueue.main.async {
-                self.logs.removeFirst(excessCount)
+        let trimOnMain = { [weak self] in
+            guard let self = self else { return }
+            let overflow = max(0, self.logs.count - self.maxLogEntries)
+            if overflow > 0 {
+                self.logs.removeFirst(overflow)
             }
+        }
+        if Thread.isMainThread {
+            trimOnMain()
+        } else {
+            DispatchQueue.main.async { trimOnMain() }
         }
     }
     

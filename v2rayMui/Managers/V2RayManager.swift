@@ -266,9 +266,9 @@ class V2RayManager: ObservableObject {
         
         // 如果应用包内没有，则检查系统路径
         let systemPaths = [
-            "/usr/local/bin/v2ray",
-            "/opt/homebrew/bin/v2ray",
-            "/usr/bin/v2ray"
+            "/usr/local/bin/xray",
+            "/opt/homebrew/bin/xray",
+            "/usr/bin/xray"
         ]
         
         for path in systemPaths {
@@ -278,7 +278,7 @@ class V2RayManager: ObservableObject {
         }
         
         // 默认返回系统路径
-        return "/usr/local/bin/v2ray"
+        return "/usr/local/bin/xray"
     }
     
     // MARK: - 配置文件管理

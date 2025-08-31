@@ -23,9 +23,9 @@
 - Xcode 15+（开发/构建）
 
 ### 获取 Xray 二进制
-资源目录优先读取：`v2rayMui/Resources/v2ray-core/v2ray`（兼容 `v2rayMui/Resources/v2ray`）。
+资源目录优先读取：`v2rayMui/Resources/xray-core/xray`（兼容 `v2rayMui/Resources/xray`）。
 
-下载脚本（自动识别架构并安装到 Resources/v2ray-core/v2ray）：
+下载脚本（自动识别架构并安装到 Resources/xray-core/xray）：
 ```bash
 ./scripts/download_xray.sh
 ```
@@ -88,7 +88,7 @@ export all_proxy=socks5://127.0.0.1:1088
 - `v2rayMui/Managers/LogManager.swift`：日志采集、合并、持久化，避免闪烁。
 - `v2rayMui/Managers/AppEnvironment.swift`：Xcode/调试/预览环境检测。
 - `v2rayMui/Views/*`：SwiftUI 界面与状态栏弹窗、日志页等。
-- `v2rayMui/Resources/v2ray-core/v2ray`：Xray 可执行文件（如存在）。
+- `v2rayMui/Resources/xray-core/xray`：Xray 可执行文件（如存在）。
 - `scripts/download_xray.sh`：下载最新 Xray 并安装到资源目录。
 
 ### 常见问题
