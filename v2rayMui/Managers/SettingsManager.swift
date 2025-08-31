@@ -222,6 +222,10 @@ class SettingsManager: ObservableObject {
         // 实际生效
         DispatchQueue.global().async {
             _ = LoginItemManager.shared.setEnabled(value)
+            // 确保不会影响 Dock 可见性：操作完成后按当前 showInDock 重新应用激活策略
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: .showInDockChanged, object: self.settings.showInDock)
+            }
         }
     }
     
