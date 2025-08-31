@@ -51,6 +51,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             NSApp.dockTile.badgeLabel = "dev"
         }
 
+        // 若用户开启了开机自启，确保LaunchAgent已安装
+        LoginItemManager.shared.ensureInstalledIfNeeded()
+
         // 监听 Dock 显示设置变化
         NotificationCenter.default.addObserver(forName: .showInDockChanged, object: nil, queue: .main) { [weak self] note in
             guard let show = note.object as? Bool else { return }

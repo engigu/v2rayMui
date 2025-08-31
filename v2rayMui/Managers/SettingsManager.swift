@@ -219,6 +219,10 @@ class SettingsManager: ObservableObject {
         objectWillChange.send()
         settings.startAtLogin = value
         saveSettings()
+        // 实际生效
+        DispatchQueue.global().async {
+            _ = LoginItemManager.shared.setEnabled(value)
+        }
     }
     
     func updateShowInDock(_ value: Bool) {

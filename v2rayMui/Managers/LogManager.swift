@@ -16,7 +16,7 @@ class LogManager: ObservableObject {
     private var logs: [LogEntry] = []
     @Published var isLogging: Bool = false
     
-    private let maxLogEntries = 50  // 减少内存中的日志数量从100到50，进一步优化内存使用
+    private let maxLogEntries = 200  // 默认上限，根据前后台动态裁剪
     private let logQueue = DispatchQueue(label: "com.v2rayMui.logmanager", qos: .background) // 使用background QoS优化性能
     private var saveTimer: Timer?
     private var pendingSave = false
@@ -75,7 +75,7 @@ class LogManager: ObservableObject {
     private func cleanupMemoryLogs() {
         let trimOnMain = { [weak self] in
             guard let self = self else { return }
-            let overflow = max(0, self.logs.count - self.maxLogEntries)
+            let overflow = max(0, self.logs.count - self.dynamicMaxLogEntries())
             if overflow > 0 {
                 self.logs.removeFirst(overflow)
             }
@@ -85,6 +85,17 @@ class LogManager: ObservableObject {
         } else {
             DispatchQueue.main.async { trimOnMain() }
         }
+    }
+    
+    /// 动态内存日志上限（前台较大，后台减半），进一步节省内存
+    private func dynamicMaxLogEntries() -> Int {
+        #if DEBUG
+        let base = maxLogEntries
+        #else
+        let base = maxLogEntries / 2
+        #endif
+        let isActive = NSApplication.shared.isActive
+        return isActive ? base : max(50, base / 2)
     }
     
     // MARK: - 日志操作

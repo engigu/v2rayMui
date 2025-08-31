@@ -22,12 +22,14 @@ class ProxyManager {
         if let auth = authorizationRef { return auth }
         var authRef: AuthorizationRef?
         let rightName = "system.preferences.network"
-        var item = rightName.withCString { ptr -> AuthorizationItem in
-            AuthorizationItem(name: ptr, valueLength: 0, value: nil, flags: 0)
-        }
-        var rights = AuthorizationRights(count: 1, items: &item)
         let flags: AuthorizationFlags = [.interactionAllowed, .extendRights, .preAuthorize]
-        let status = AuthorizationCreate(&rights, nil, flags, &authRef)
+        let status: OSStatus = rightName.withCString { namePtr in
+            var item = AuthorizationItem(name: namePtr, valueLength: 0, value: nil, flags: 0)
+            return withUnsafeMutablePointer(to: &item) { itemPtr in
+                var rights = AuthorizationRights(count: 1, items: itemPtr)
+                return AuthorizationCreate(&rights, nil, flags, &authRef)
+            }
+        }
         if status == errAuthorizationSuccess, let auth = authRef {
             authorizationRef = auth
             return auth

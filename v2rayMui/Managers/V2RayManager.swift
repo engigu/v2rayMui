@@ -347,11 +347,13 @@ class V2RayManager: ObservableObject {
         LogManager.shared.addLog("生成配置文件到: \(configFileURL.path)", level: .info, source: .app)
         
         let v2rayConfig = generateV2RayJSON(from: config)
-        let jsonData = try JSONSerialization.data(withJSONObject: v2rayConfig, options: [.sortedKeys, .prettyPrinted])
+        // 使用紧凑JSON以减少内存占用与磁盘写入量
+        let jsonData = try JSONSerialization.data(withJSONObject: v2rayConfig, options: [.sortedKeys])
         
-        // 记录配置文件内容（仅用于调试）
-        if let configString = String(data: jsonData, encoding: .utf8) {
-            LogManager.shared.addLog("配置文件内容:\n\(configString)", level: .debug, source: .app)
+        // 仅在Xcode调试环境下输出配置（避免运行版占用内存与日志膨胀）
+        if AppEnvironment.isRunningInXcode, let configString = String(data: jsonData, encoding: .utf8) {
+            LogManager.shared.addLog("配置文件(调试)内容已生成，长度: \(jsonData.count) bytes", level: .debug, source: .app)
+            LogManager.shared.addLog(configString, level: .debug, source: .app)
         }
         
         try jsonData.write(to: configFileURL)
@@ -636,7 +638,7 @@ class V2RayManager: ObservableObject {
             case "tls":
                 // 期望格式：
                 // "tlsSettings": { "fingerprint": "", "alpn": [], "serverName": "", "allowInsecure": true }
-                var tlsSettings: [String: Any] = [
+                let tlsSettings: [String: Any] = [
                     "fingerprint": config.fingerprint ?? "",
                     "alpn": [],
                     "serverName": config.host ?? "",
