@@ -23,6 +23,7 @@ URL="https://gh-proxy.com/https://github.com/XTLS/Xray-core/releases/latest/down
 
 curl -fL "$URL" -o "$TMP_DIR/xray.zip"
 unzip -q "$TMP_DIR/xray.zip" -d "$TMP_DIR"
+rm -f "$TMP_DIR/xray.zip"
 
 BIN=""
 if [[ -f "$TMP_DIR/xray" ]]; then BIN="$TMP_DIR/xray";
@@ -34,8 +35,21 @@ if [[ -z "${BIN:-}" || ! -f "$BIN" ]]; then
   exit 1
 fi
 
-install -m 755 "$BIN" "$TARGET_DIR/xray"
+# 复制所有解压出的文件到目标目录
+if command -v rsync >/dev/null 2>&1; then
+  rsync -a "$TMP_DIR"/ "$TARGET_DIR"/
+else
+  cp -R "$TMP_DIR"/* "$TARGET_DIR"/ || true
+fi
+
+# 规范化二进制命名为 xray 并赋权
+if [[ -f "$TARGET_DIR/Xray" && ! -f "$TARGET_DIR/xray" ]]; then
+  mv "$TARGET_DIR/Xray" "$TARGET_DIR/xray"
+fi
+chmod 755 "$TARGET_DIR/xray" 2>/dev/null || true
+
 rm -rf "$TMP_DIR"
 echo "$TARGET_DIR/xray"
+
 
 
