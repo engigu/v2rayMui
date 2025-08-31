@@ -17,9 +17,13 @@ class LoginItemManager {
     private var agentPlistURL: URL? {
         guard let home = fileManager.homeDirectoryForCurrentUser as URL? else { return nil }
         let launchAgents = home.appendingPathComponent("Library/LaunchAgents", isDirectory: true)
+        return launchAgents.appendingPathComponent("\(loginAgentLabel).plist")
+    }
+
+    private var loginAgentLabel: String {
         let baseId = Bundle.main.bundleIdentifier ?? "gg.v2rayMui"
-        let bundleId = AppEnvironment.isRunningInXcode ? baseId + ".dev" : baseId
-        return launchAgents.appendingPathComponent("\(bundleId).plist")
+        let id = AppEnvironment.isRunningInXcode ? baseId + ".dev" : baseId
+        return id + ".loginitem"
     }
 
     /// Enable/disable start at login. Returns true when operation appears successful.
@@ -50,33 +54,20 @@ class LoginItemManager {
             return false
         }
 
-        // Try modern bootstrapping
-        _ = runLaunchctl(["bootout", "gui/\(getuid())", plistURL.path])
-        if runLaunchctl(["bootstrap", "gui/\(getuid())", plistURL.path]) {
-            LogManager.shared.addLog("已启用开机自启 (launchctl bootstrap)", level: .info, source: .app)
-            return true
-        }
-        // Fallback (legacy)
-        if runLaunchctl(["load", "-w", plistURL.path]) {
-            LogManager.shared.addLog("已启用开机自启 (launchctl load)", level: .info, source: .app)
-            return true
-        }
-
-        LogManager.shared.addLog("启用开机自启失败：可能因沙盒权限限制，需手动允许或使用带Helper的方案", level: .warning, source: .app)
-        return false
+        // 不在当前会话加载，避免干扰 Dock 与状态栏当前状态；将在下次登录时生效
+        return true
     }
 
     private func unload() -> Bool {
         guard let plistURL = agentPlistURL else { return false }
-        var ok = false
-        if runLaunchctl(["bootout", "gui/\(getuid())", plistURL.path]) { ok = true }
-        if runLaunchctl(["unload", "-w", plistURL.path]) { ok = true }
-        if ok {
-            LogManager.shared.addLog("已关闭开机自启", level: .info, source: .app)
-        } else {
-            LogManager.shared.addLog("关闭开机自启失败（可能已未加载）", level: .warning, source: .app)
+        do {
+            try FileManager.default.removeItem(at: plistURL)
+            LogManager.shared.addLog("已移除启动项: \(plistURL.path)", level: .info, source: .app)
+            return true
+        } catch {
+            LogManager.shared.addLog("移除启动项失败: \(error.localizedDescription)", level: .warning, source: .app)
+            return false
         }
-        return ok
     }
 
     private func ensureParentDir(_ url: URL) throws {
@@ -89,9 +80,7 @@ class LoginItemManager {
         let execName = Bundle.main.object(forInfoDictionaryKey: "CFBundleExecutable") as? String ?? "v2rayMui"
         let execPath = (bundlePath as NSString).appendingPathComponent("Contents/MacOS/\(execName)")
         var dict: [String: Any] = [:]
-        let baseId = Bundle.main.bundleIdentifier ?? "gg.v2rayMui"
-        let label = AppEnvironment.isRunningInXcode ? baseId + ".dev" : baseId
-        dict["Label"] = label
+        dict["Label"] = loginAgentLabel
         dict["RunAtLoad"] = true
         dict["KeepAlive"] = false
         dict["ProcessType"] = "Interactive"
