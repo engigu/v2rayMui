@@ -67,7 +67,10 @@ class StatusBarManager: ObservableObject {
         connectionMenuItem.target = self
         menu.addItem(connectionMenuItem)
         
-
+        // 打开控制台（浏览器）
+        let openWebItem = NSMenuItem(title: "打开控制台", action: #selector(openDashboard), keyEquivalent: "")
+        openWebItem.target = self
+        menu.addItem(openWebItem)
         
         menu.addItem(NSMenuItem.separator())
         
@@ -294,6 +297,11 @@ class StatusBarManager: ObservableObject {
             guard let config = ConfigManager.shared.selectedConfig else { return }
             v2rayManager.connect(with: config)
         }
+    }
+
+    @objc private func openDashboard() {
+        WebServerManager.shared.startIfNeeded()
+        WebServerManager.shared.openDashboard()
     }
     
 

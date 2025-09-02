@@ -16,7 +16,7 @@ class LogManager: ObservableObject {
     private var logs: [LogEntry] = []
     @Published var isLogging: Bool = false
     
-    private let maxLogEntries = 200  // 默认上限，根据前后台动态裁剪
+    private let maxLogEntries = 120  // 默认上限，根据前后台动态裁剪（降低内存占用）
     private let logQueue = DispatchQueue(label: "com.v2rayMui.logmanager", qos: .background) // 使用background QoS优化性能
     private var saveTimer: Timer?
     private var pendingSave = false
@@ -348,9 +348,7 @@ struct LogEntry: Codable, Identifiable {
     let message: String
     
     var formattedTimestamp: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm:ss.SSS"
-        return formatter.string(from: timestamp)
+        return LogEntry.timestampFormatter.string(from: timestamp)
     }
     
     var levelIcon: String {
@@ -365,6 +363,14 @@ struct LogEntry: Codable, Identifiable {
             return "❌"
         }
     }
+}
+
+extension LogEntry {
+    fileprivate static let timestampFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm:ss.SSS"
+        return formatter
+    }()
 }
 
 // MARK: - 日志级别

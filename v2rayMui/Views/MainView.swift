@@ -739,6 +739,11 @@ struct PulsingDot: View {
             .onAppear {
                 if isActive { start() }
             }
+            .onDisappear {
+                withAnimation(.easeOut(duration: 0.2)) {
+                    scale = 1.0
+                }
+            }
     }
 
     private func start() {

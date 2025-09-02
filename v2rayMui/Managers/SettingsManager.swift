@@ -48,6 +48,10 @@ struct AppSettings: Codable {
     
     // 可以添加更多设置项
     var lastUpdated: Date = Date()
+
+    // Web 控制台设置
+    var webHost: String = "127.0.0.1"
+    var webPort: Int = 8787
 }
 
 /// 设置管理器

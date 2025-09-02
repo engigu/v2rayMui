@@ -13,12 +13,13 @@ struct v2rayMuiApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some Scene {
+        // 主窗口已不再承载页面，仅保留状态栏；默认不创建可见窗口
         WindowGroup {
-            ContentView()
+            EmptyView()
         }
         .windowStyle(.hiddenTitleBar)
         .windowResizability(.contentSize)
-        .defaultSize(width: 1000, height: 750)
+        .defaultSize(width: 1, height: 1)
         .commands {
             // 移除默认的文件菜单等
             CommandGroup(replacing: .newItem) { }
@@ -42,6 +43,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // 初始化状态栏
         statusBarManager.showStatusBar()
+
+        // 启动本地 Web 服务（Go）
+        WebServerManager.shared.startIfNeeded()
         
         // 根据设置控制 Dock 可见性
         NSApp.setActivationPolicy(settingsManager.settings.showInDock ? .regular : .accessory)
@@ -110,24 +114,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
         
-        // 设置窗口关闭行为和固定大小
-        if let window = NSApplication.shared.windows.first {
-            window.delegate = WindowDelegate.shared
-            
-            // 设置固定窗口大小
-            let fixedSize = NSSize(width: 1000, height: 750)
-            window.setContentSize(fixedSize)
-            window.minSize = fixedSize
-            window.maxSize = fixedSize
-            
-            // 禁用全屏功能
-            window.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
-            
-            // 禁用窗口缩放按钮
-            if let zoomButton = window.standardWindowButton(.zoomButton) {
-                zoomButton.isEnabled = false
-            }
-        }
+        // 不再管理主窗口尺寸/行为
     }
     
     /// 运行时设置 Dock 图标（优先 icns，其次 png）

@@ -28,11 +28,11 @@ struct LogView: View {
         return logs
     }
     
-    var visibleLogs: [LogEntry] {
-        let logs = filteredLogs
-        let endIndex = min(visibleRange.upperBound, logs.count)
-        let startIndex = max(0, min(visibleRange.lowerBound, endIndex))
-        return Array(logs[startIndex..<endIndex])
+    var visibleRangeClamped: Range<Int> {
+        let total = filteredLogs.count
+        let upper = min(visibleRange.upperBound, total)
+        let lower = max(0, min(visibleRange.lowerBound, upper))
+        return lower..<upper
     }
     
     var body: some View {
@@ -129,12 +129,13 @@ struct LogView: View {
                 ScrollView {
                     ScrollViewReader { proxy in
                         LazyVStack(spacing: 0) {
-                        ForEach(visibleLogs) { entry in
+                        let range = visibleRangeClamped
+                        ForEach(range, id: \.self) { idx in
+                            let entry = filteredLogs[idx]
                             LogEntryRow(entry: entry)
                                 .id(entry.id)
                                 .onAppear {
-                                    // 当接近底部时加载更多
-                                    if entry.id == visibleLogs.last?.id {
+                                    if idx == range.upperBound - 1 {
                                         loadMoreIfNeeded()
                                     }
                                 }
