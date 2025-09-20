@@ -8,13 +8,5 @@
 	<true/>
 	<key>com.apple.security.network.client</key>
 	<true/>
-	<key>com.apple.security.network.server</key>
-	<true/>
-	<key>com.apple.security.files.downloads.read-write</key>
-	<true/>
-	<key>com.apple.security.temporary-exception.mach-lookup.global-name</key>
-	<array>
-		<string>com.apple.system.notification_center</string>
-	</array>
 </dict>
 </plist>

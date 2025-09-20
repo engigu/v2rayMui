@@ -1,0 +1,476 @@
+{"time":"2025-09-20T22:21:21.340642+08:00","level":"info","source":"system","message":"Logs cleared"}
+{"time":"2025-09-20T22:21:26.823981+08:00","level":"info","source":"xray","message":"2025/09/20 22:21:26.823956 [Info] [409089043] app/dispatcher: default route for tcp:httpbin.org:443"}
+{"time":"2025-09-20T22:21:26.823973+08:00","level":"info","source":"xray","message":"2025/09/20 22:21:26.823941 [Info] [409089043] proxy/http: request to Method [CONNECT] Host [httpbin.org:443] with URL [//httpbin.org:443]"}
+{"time":"2025-09-20T22:21:26.824003+08:00","level":"info","source":"xray","message":"2025/09/20 22:21:26.823978 from 127.0.0.1:51596 accepted //httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-20T22:21:26.824002+08:00","level":"info","source":"xray","message":"2025/09/20 22:21:26.823988 [Info] [409089043] transport/internet/tcp: dialing TCP to tcp:3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-20T22:21:26.996656+08:00","level":"info","source":"xray","message":"2025/09/20 22:21:26.996625 [Info] [409089043] proxy/vmess/outbound: tunneling request to tcp:httpbin.org:443 via 3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-20T22:21:28.163439+08:00","level":"info","source":"xray","message":"2025/09/20 22:21:28.163395 [Info] [409089043] app/proxyman/inbound: connection ends \u003e proxy/http: connection ends \u003e context canceled"}
+{"time":"2025-09-20T22:21:44.412734+08:00","level":"info","source":"xray","message":"2025/09/20 22:21:44.412604 [Info] [4266314823] proxy/http: request to Method [GET] Host [httpbin.org] with URL [http://httpbin.org/get]"}
+{"time":"2025-09-20T22:21:44.412758+08:00","level":"info","source":"xray","message":"2025/09/20 22:21:44.412643 [Info] [4266314823] app/dispatcher: default route for tcp:httpbin.org:80"}
+{"time":"2025-09-20T22:21:44.41285+08:00","level":"info","source":"xray","message":"2025/09/20 22:21:44.412706 from 127.0.0.1:51722 accepted http://httpbin.org/get [http \u003e\u003e proxy]"}
+{"time":"2025-09-20T22:21:44.412867+08:00","level":"info","source":"xray","message":"2025/09/20 22:21:44.412781 [Info] [4266314823] transport/internet/tcp: dialing TCP to tcp:3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-20T22:21:44.599718+08:00","level":"info","source":"xray","message":"2025/09/20 22:21:44.599649 [Info] [4266314823] proxy/vmess/outbound: tunneling request to tcp:httpbin.org:80 via 3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-20T22:21:46.845325+08:00","level":"info","source":"xray","message":"2025/09/20 22:21:46.845273 [Warning] [4266314823] proxy/http: failed to read response from httpbin.org \u003e unexpected EOF"}
+{"time":"2025-09-20T22:21:46.845514+08:00","level":"info","source":"xray","message":"2025/09/20 22:21:46.845502 [Info] [4266314823] app/proxyman/inbound: connection ends \u003e proxy/http: failed to read http request \u003e EOF"}
+{"time":"2025-09-20T22:22:17.020811+08:00","level":"info","source":"xray","message":"2025/09/20 22:22:17.020752 [Info] [1569709905] proxy/http: request to Method [GET] Host [httpbin.org] with URL [http://httpbin.org/get]"}
+{"time":"2025-09-20T22:22:17.020871+08:00","level":"info","source":"xray","message":"2025/09/20 22:22:17.020837 [Info] [1569709905] transport/internet/tcp: dialing TCP to tcp:3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-20T22:22:17.020821+08:00","level":"info","source":"xray","message":"2025/09/20 22:22:17.020774 [Info] [1569709905] app/dispatcher: default route for tcp:httpbin.org:80"}
+{"time":"2025-09-20T22:22:17.020826+08:00","level":"info","source":"xray","message":"2025/09/20 22:22:17.020796 from 127.0.0.1:51949 accepted http://httpbin.org/get [http \u003e\u003e proxy]"}
+{"time":"2025-09-20T22:22:17.217881+08:00","level":"info","source":"xray","message":"2025/09/20 22:22:17.217846 [Info] [1569709905] proxy/vmess/outbound: tunneling request to tcp:httpbin.org:80 via 3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-20T22:22:17.375664+08:00","level":"info","source":"xray","message":"2025/09/20 22:22:17.375499 [Warning] [1569709905] proxy/http: failed to read response from httpbin.org \u003e unexpected EOF"}
+{"time":"2025-09-20T22:22:17.375809+08:00","level":"info","source":"xray","message":"2025/09/20 22:22:17.375785 [Info] [1569709905] app/proxyman/inbound: connection ends \u003e proxy/http: failed to read http request \u003e EOF"}
+{"time":"2025-09-20T22:39:06.701596+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T22:39:10.17929+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T22:39:11.004+08:00","level":"info","source":"config","message":"Selected server: b53b7fbf-3977-4222-bfbc-8e5c9adfad74"}
+{"time":"2025-09-20T22:39:13.019696+08:00","level":"info","source":"system","message":"Disconnected from server"}
+{"time":"2025-09-20T22:39:13.339937+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-20T22:39:13.362186+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-20T22:39:13.362058+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-20T22:39:13.362755+08:00","level":"info","source":"xray","message":"2025/09/20 22:39:13.362663 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-20T22:39:13.36511+08:00","level":"info","source":"xray","message":"2025/09/20 22:39:13.365024 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-20T22:39:13.365092+08:00","level":"info","source":"xray","message":"2025/09/20 22:39:13.364997 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-20T22:39:13.365105+08:00","level":"info","source":"xray","message":"2025/09/20 22:39:13.365021 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-20T22:39:18.437793+08:00","level":"info","source":"xray","message":"2025/09/20 22:39:18.437776 [Info] [1628267909] transport/internet/tcp: dialing TCP to tcp:3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-20T22:39:18.43779+08:00","level":"info","source":"xray","message":"2025/09/20 22:39:18.437770 [Info] [1628267909] app/dispatcher: default route for tcp:httpbin.org:80"}
+{"time":"2025-09-20T22:39:18.437788+08:00","level":"info","source":"xray","message":"2025/09/20 22:39:18.437679 [Info] [1628267909] proxy/http: request to Method [GET] Host [httpbin.org] with URL [http://httpbin.org/get]"}
+{"time":"2025-09-20T22:39:18.43778+08:00","level":"info","source":"xray","message":"2025/09/20 22:39:18.437742 from 127.0.0.1:54111 accepted http://httpbin.org/get [http \u003e\u003e proxy]"}
+{"time":"2025-09-20T22:39:18.612391+08:00","level":"info","source":"xray","message":"2025/09/20 22:39:18.612334 [Info] [1628267909] proxy/vmess/outbound: tunneling request to tcp:httpbin.org:80 via 3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-20T22:39:18.780143+08:00","level":"info","source":"xray","message":"2025/09/20 22:39:18.780095 [Warning] [1628267909] proxy/http: failed to read response from httpbin.org \u003e unexpected EOF"}
+{"time":"2025-09-20T22:39:18.780342+08:00","level":"info","source":"xray","message":"2025/09/20 22:39:18.780306 [Info] [1628267909] app/proxyman/inbound: connection ends \u003e proxy/http: failed to read http request \u003e EOF"}
+{"time":"2025-09-20T22:39:19.741609+08:00","level":"info","source":"xray","message":"2025/09/20 22:39:19.741578 from 127.0.0.1:54122 accepted http://httpbin.org/get [http \u003e\u003e proxy]"}
+{"time":"2025-09-20T22:39:19.741634+08:00","level":"info","source":"xray","message":"2025/09/20 22:39:19.741609 [Info] [1688995418] transport/internet/tcp: dialing TCP to tcp:3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-20T22:39:19.7416+08:00","level":"info","source":"xray","message":"2025/09/20 22:39:19.741547 [Info] [1688995418] app/dispatcher: default route for tcp:httpbin.org:80"}
+{"time":"2025-09-20T22:39:19.741586+08:00","level":"info","source":"xray","message":"2025/09/20 22:39:19.741516 [Info] [1688995418] proxy/http: request to Method [GET] Host [httpbin.org] with URL [http://httpbin.org/get]"}
+{"time":"2025-09-20T22:39:20.14282+08:00","level":"info","source":"xray","message":"2025/09/20 22:39:20.142662 [Info] [1688995418] proxy/vmess/outbound: tunneling request to tcp:httpbin.org:80 via 3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-20T22:39:20.302416+08:00","level":"info","source":"xray","message":"2025/09/20 22:39:20.302381 [Warning] [1688995418] proxy/http: failed to read response from httpbin.org \u003e unexpected EOF"}
+{"time":"2025-09-20T22:39:20.302583+08:00","level":"info","source":"xray","message":"2025/09/20 22:39:20.302557 [Info] [1688995418] app/proxyman/inbound: connection ends \u003e proxy/http: failed to read http request \u003e EOF"}
+{"time":"2025-09-20T22:41:11.556093+08:00","level":"info","source":"config","message":"Selected server: b53b7fbf-3977-4222-bfbc-8e5c9adfad74"}
+{"time":"2025-09-20T22:41:23.091371+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T22:41:26.550304+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-20T22:41:26.623889+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-20T22:41:26.623834+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-20T22:41:26.626107+08:00","level":"info","source":"xray","message":"2025/09/20 22:41:26.625828 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-20T22:41:26.628089+08:00","level":"info","source":"xray","message":"2025/09/20 22:41:26.628065 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-20T22:41:26.628117+08:00","level":"info","source":"xray","message":"2025/09/20 22:41:26.628081 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-20T22:41:26.628351+08:00","level":"info","source":"xray","message":"2025/09/20 22:41:26.628338 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-20T22:41:31.150741+08:00","level":"info","source":"xray","message":"2025/09/20 22:41:31.150591 [Info] [2429780208] proxy/http: request to Method [GET] Host [httpbin.org] with URL [http://httpbin.org/get]"}
+{"time":"2025-09-20T22:41:31.150751+08:00","level":"info","source":"xray","message":"2025/09/20 22:41:31.150707 [Info] [2429780208] app/dispatcher: default route for tcp:httpbin.org:80"}
+{"time":"2025-09-20T22:41:31.150774+08:00","level":"info","source":"xray","message":"2025/09/20 22:41:31.150746 from 127.0.0.1:55043 accepted http://httpbin.org/get [http \u003e\u003e proxy]"}
+{"time":"2025-09-20T22:41:31.151324+08:00","level":"info","source":"xray","message":"2025/09/20 22:41:31.151293 [Info] [2429780208] transport/internet/tcp: dialing TCP to tcp:3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-20T22:41:31.731872+08:00","level":"info","source":"xray","message":"2025/09/20 22:41:31.731830 [Info] [2429780208] proxy/vmess/outbound: tunneling request to tcp:httpbin.org:80 via 3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-20T22:41:32.014252+08:00","level":"info","source":"xray","message":"2025/09/20 22:41:32.014197 [Info] [2429780208] app/proxyman/inbound: connection ends \u003e proxy/http: failed to read http request \u003e EOF"}
+{"time":"2025-09-20T22:41:33.774311+08:00","level":"info","source":"xray","message":"2025/09/20 22:41:33.774285 [Info] [2445207409] app/dispatcher: default route for tcp:httpbin.org:80"}
+{"time":"2025-09-20T22:41:33.774325+08:00","level":"info","source":"xray","message":"2025/09/20 22:41:33.774304 from 127.0.0.1:55060 accepted http://httpbin.org/get [http \u003e\u003e proxy]"}
+{"time":"2025-09-20T22:41:33.774311+08:00","level":"info","source":"xray","message":"2025/09/20 22:41:33.774288 [Info] [2445207409] transport/internet/tcp: dialing TCP to tcp:3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-20T22:41:33.774303+08:00","level":"info","source":"xray","message":"2025/09/20 22:41:33.774266 [Info] [2445207409] proxy/http: request to Method [GET] Host [httpbin.org] with URL [http://httpbin.org/get]"}
+{"time":"2025-09-20T22:41:34.141338+08:00","level":"info","source":"xray","message":"2025/09/20 22:41:34.141289 [Info] [2445207409] proxy/vmess/outbound: tunneling request to tcp:httpbin.org:80 via 3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-20T22:41:35.203025+08:00","level":"info","source":"xray","message":"2025/09/20 22:41:35.202989 [Info] [2445207409] app/proxyman/inbound: connection ends \u003e proxy/http: failed to read http request \u003e EOF"}
+{"time":"2025-09-20T22:42:21.142308+08:00","level":"info","source":"xray","message":"2025/09/20 22:42:21.142279 [Info] [2974662427] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-20T22:42:21.142258+08:00","level":"info","source":"xray","message":"2025/09/20 22:42:21.142213 [Info] [2974662427] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-20T22:42:21.142315+08:00","level":"info","source":"xray","message":"2025/09/20 22:42:21.142289 from 127.0.0.1:55421 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-20T22:42:21.142316+08:00","level":"info","source":"xray","message":"2025/09/20 22:42:21.142288 [Info] [2974662427] transport/internet/tcp: dialing TCP to tcp:3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-20T22:42:21.488879+08:00","level":"info","source":"xray","message":"2025/09/20 22:42:21.488834 [Info] [2974662427] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-20T22:46:35.686142+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T22:46:43.162344+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T22:48:50.59021+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T22:49:53.145509+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T22:51:07.107107+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-20T22:51:07.181135+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-20T22:51:07.181115+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-20T22:51:07.182753+08:00","level":"info","source":"xray","message":"2025/09/20 22:51:07.182673 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-20T22:51:07.184647+08:00","level":"info","source":"xray","message":"2025/09/20 22:51:07.184614 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-20T22:51:07.184643+08:00","level":"info","source":"xray","message":"2025/09/20 22:51:07.184586 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-20T22:51:07.185256+08:00","level":"info","source":"xray","message":"2025/09/20 22:51:07.185057 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-20T22:52:10.689042+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T22:52:30.51164+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T22:52:46.798788+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T22:53:50.635412+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T22:55:46.574817+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T22:55:56.337113+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T22:56:32.181899+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T22:56:49.288708+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T22:57:23.64872+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T22:57:51.310631+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T22:59:56.38807+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T23:00:06.043724+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T23:00:16.121526+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T23:11:04.897107+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T23:11:15.095777+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T23:11:21.505357+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T23:14:27.476048+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T23:26:59.315916+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T23:27:11.359404+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T23:31:57.893798+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T23:45:43.296509+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-20T23:48:04.65604+08:00","level":"info","source":"config","message":"Selected server: b53b7fbf-3977-4222-bfbc-8e5c9adfad74"}
+{"time":"2025-09-20T23:55:43.049667+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-20T23:55:43.184533+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-20T23:55:43.184551+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-20T23:55:43.186392+08:00","level":"info","source":"xray","message":"2025/09/20 23:55:43.186296 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-20T23:55:43.188703+08:00","level":"info","source":"xray","message":"2025/09/20 23:55:43.188689 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-20T23:55:43.188699+08:00","level":"info","source":"xray","message":"2025/09/20 23:55:43.188680 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-20T23:55:43.190004+08:00","level":"info","source":"xray","message":"2025/09/20 23:55:43.188906 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-20T23:55:56.825197+08:00","level":"info","source":"system","message":"Disconnected from server"}
+{"time":"2025-09-21T00:04:12.502866+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-21T00:04:31.62885+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-21T00:04:39.510975+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-21T00:04:46.030109+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-21T00:07:11.443628+08:00","level":"info","source":"config","message":"Selected server: 71f73b03-bbfc-497d-ba94-f8083e192e12"}
+{"time":"2025-09-21T00:07:12.833785+08:00","level":"info","source":"config","message":"Selected server: b53b7fbf-3977-4222-bfbc-8e5c9adfad74"}
+{"time":"2025-09-21T00:10:11.92739+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-21T00:10:15.871166+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-21T00:10:19.55289+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-21T00:10:20.533227+08:00","level":"info","source":"config","message":"Selected server: b53b7fbf-3977-4222-bfbc-8e5c9adfad74"}
+{"time":"2025-09-21T00:10:22.683712+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:10:22.781494+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:10:22.780877+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:10:22.788532+08:00","level":"info","source":"xray","message":"2025/09/21 00:10:22.787609 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:10:22.791618+08:00","level":"info","source":"xray","message":"2025/09/21 00:10:22.791611 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:10:22.791611+08:00","level":"info","source":"xray","message":"2025/09/21 00:10:22.791550 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:10:22.791798+08:00","level":"info","source":"xray","message":"2025/09/21 00:10:22.791782 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:10:25.780619+08:00","level":"info","source":"xray","message":"2025/09/21 00:10:25.780562 [Info] [2092322060] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:10:25.781201+08:00","level":"info","source":"xray","message":"2025/09/21 00:10:25.780784 [Info] [2092322060] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:10:25.7814+08:00","level":"info","source":"xray","message":"2025/09/21 00:10:25.781240 from 127.0.0.1:64504 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:10:25.781772+08:00","level":"info","source":"xray","message":"2025/09/21 00:10:25.781761 [Info] [2092322060] transport/internet/tcp: dialing TCP to tcp:3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-21T00:10:26.253399+08:00","level":"info","source":"xray","message":"2025/09/21 00:10:26.253367 [Info] [2092322060] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-21T00:10:28.665466+08:00","level":"info","source":"xray","message":"2025/09/21 00:10:28.665410 [Info] [2631374110] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:10:28.665658+08:00","level":"info","source":"xray","message":"2025/09/21 00:10:28.665604 [Info] [2631374110] transport/internet/tcp: dialing TCP to tcp:3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-21T00:10:28.665778+08:00","level":"info","source":"xray","message":"2025/09/21 00:10:28.665703 from 127.0.0.1:64531 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:10:28.665655+08:00","level":"info","source":"xray","message":"2025/09/21 00:10:28.665598 [Info] [2631374110] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:10:29.039022+08:00","level":"info","source":"xray","message":"2025/09/21 00:10:29.038983 [Info] [2631374110] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-21T00:11:05.638024+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-21T00:11:07.98875+08:00","level":"info","source":"config","message":"Updated server: a0xb9j5p"}
+{"time":"2025-09-21T00:14:05.937544+08:00","level":"info","source":"config","message":"Selected server: b53b7fbf-3977-4222-bfbc-8e5c9adfad74"}
+{"time":"2025-09-21T00:16:56.912097+08:00","level":"info","source":"config","message":"Selected server: b53b7fbf-3977-4222-bfbc-8e5c9adfad74"}
+{"time":"2025-09-21T00:20:55.581633+08:00","level":"info","source":"config","message":"Added server: xhttp-wwk3u55j"}
+{"time":"2025-09-21T00:21:00.339003+08:00","level":"info","source":"config","message":"Deleted server: 71f73b03-bbfc-497d-ba94-f8083e192e12"}
+{"time":"2025-09-21T00:21:10.578668+08:00","level":"info","source":"config","message":"Updated server: xhttp-wwk3u55j"}
+{"time":"2025-09-21T00:22:55.282717+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:22:55.377581+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:22:55.377568+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:22:55.380198+08:00","level":"info","source":"xray","message":"2025/09/21 00:22:55.379997 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:22:55.382169+08:00","level":"info","source":"xray","message":"2025/09/21 00:22:55.382148 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:22:55.382275+08:00","level":"info","source":"xray","message":"2025/09/21 00:22:55.382221 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:22:55.382801+08:00","level":"info","source":"xray","message":"2025/09/21 00:22:55.382745 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:22:56.870356+08:00","level":"info","source":"system","message":"Disconnected from server"}
+{"time":"2025-09-21T00:22:59.140047+08:00","level":"info","source":"config","message":"Selected server: 10df88ab-d5a6-48e4-a0b5-7a121102c99b"}
+{"time":"2025-09-21T00:23:01.958993+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:23:01.970053+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:23:01.970067+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:23:01.97048+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:01.970166 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:23:01.971102+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:01.971083 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:23:01.971786+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:01.971755 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:23:01.97179+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:01.971781 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:23:18.769507+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:18.769453 [Info] [3299808257] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:23:18.769944+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:18.769938 from 127.0.0.1:52571 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:23:18.76994+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:18.769906 [Info] [3299808257] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:23:18.771477+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:18.771461 [Info] [3299808257] transport/internet/splithttp: XHTTP is dialing to tcp:3xui.qwapi.eu.org:10377, mode packet-up, HTTP version 2, host 3xui.qwapi.eu.org"}
+{"time":"2025-09-21T00:23:19.378667+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:19.378629 [Info] [3299808257] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:10377"}
+{"time":"2025-09-21T00:23:19.546037+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:19.546012 [Info] [3299808257] transport/internet/splithttp: failed to send upload \u003e transport/internet/splithttp: bad status code:404 Not Found"}
+{"time":"2025-09-21T00:23:19.546025+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:19.545975 [Info] [3299808257] transport/internet/splithttp: unexpected status 404"}
+{"time":"2025-09-21T00:23:20.547594+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:20.547522 [Info] [3299808257] app/proxyman/inbound: connection ends \u003e proxy/http: connection ends \u003e context canceled"}
+{"time":"2025-09-21T00:23:21.734836+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:21.734808 [Info] [238976437] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:23:21.734796+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:21.734758 [Info] [238976437] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:23:21.734871+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:21.734842 from 127.0.0.1:52591 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:23:21.73506+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:21.735047 [Info] [238976437] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:10377"}
+{"time":"2025-09-21T00:23:21.734977+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:21.734949 [Info] [238976437] transport/internet/splithttp: XHTTP is dialing to tcp:3xui.qwapi.eu.org:10377, mode packet-up, HTTP version 2, host 3xui.qwapi.eu.org"}
+{"time":"2025-09-21T00:23:21.902525+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:21.902471 [Info] [238976437] transport/internet/splithttp: unexpected status 404"}
+{"time":"2025-09-21T00:23:21.902533+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:21.902486 [Info] [238976437] transport/internet/splithttp: failed to send upload \u003e transport/internet/splithttp: bad status code:404 Not Found"}
+{"time":"2025-09-21T00:23:22.902844+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:22.902783 [Info] [238976437] app/proxyman/inbound: connection ends \u003e proxy/http: connection ends \u003e context canceled"}
+{"time":"2025-09-21T00:23:24.149704+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:24.149688 from 127.0.0.1:52610 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:23:24.149669+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:24.149633 [Info] [1310951322] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:23:24.149676+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:24.149670 [Info] [1310951322] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:23:24.149804+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:24.149725 [Info] [1310951322] transport/internet/splithttp: XHTTP is dialing to tcp:3xui.qwapi.eu.org:10377, mode packet-up, HTTP version 2, host 3xui.qwapi.eu.org"}
+{"time":"2025-09-21T00:23:24.149944+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:24.149848 [Info] [1310951322] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:10377"}
+{"time":"2025-09-21T00:23:24.317375+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:24.317343 [Info] [1310951322] transport/internet/splithttp: unexpected status 404"}
+{"time":"2025-09-21T00:23:24.317382+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:24.317364 [Info] [1310951322] transport/internet/splithttp: failed to send upload \u003e transport/internet/splithttp: bad status code:404 Not Found"}
+{"time":"2025-09-21T00:23:25.318498+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:25.318453 [Info] [1310951322] app/proxyman/inbound: connection ends \u003e proxy/http: connection ends \u003e context canceled"}
+{"time":"2025-09-21T00:23:26.072646+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:26.072588 from 127.0.0.1:52629 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:23:26.072786+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:26.072694 [Info] [1408194191] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:10377"}
+{"time":"2025-09-21T00:23:26.07263+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:26.072563 [Info] [1408194191] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:23:26.072639+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:26.072578 [Info] [1408194191] transport/internet/splithttp: XHTTP is dialing to tcp:3xui.qwapi.eu.org:10377, mode packet-up, HTTP version 2, host 3xui.qwapi.eu.org"}
+{"time":"2025-09-21T00:23:26.072638+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:26.072575 [Info] [1408194191] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:23:26.240385+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:26.240355 [Info] [1408194191] transport/internet/splithttp: unexpected status 404"}
+{"time":"2025-09-21T00:23:26.240392+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:26.240372 [Info] [1408194191] transport/internet/splithttp: failed to send upload \u003e transport/internet/splithttp: bad status code:404 Not Found"}
+{"time":"2025-09-21T00:23:27.241516+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:27.241484 [Info] [1408194191] app/proxyman/inbound: connection ends \u003e proxy/http: connection ends \u003e context canceled"}
+{"time":"2025-09-21T00:23:49.898891+08:00","level":"info","source":"config","message":"Updated server: xhttp-wwk3u55j"}
+{"time":"2025-09-21T00:23:52.980032+08:00","level":"info","source":"system","message":"Disconnected from server"}
+{"time":"2025-09-21T00:23:53.535536+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:23:53.55885+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:23:53.558844+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:23:53.559404+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:53.559199 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:23:53.560025+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:53.560007 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:23:53.560021+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:53.560005 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:23:53.56002+08:00","level":"info","source":"xray","message":"2025/09/21 00:23:53.559883 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:26:17.49031+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:26:17.557828+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:26:17.557817+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:26:17.55964+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:17.559361 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:26:17.563227+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:17.563160 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:26:17.563334+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:17.563321 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:26:17.563332+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:17.563314 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:26:26.790086+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:26.790045 [Info] [1919904508] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:26:26.790282+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:26.790272 [Info] [1919904508] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:26:26.790311+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:26.790305 from 127.0.0.1:53755 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:26:26.792257+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:26.792250 [Info] [1919904508] transport/internet/splithttp: XHTTP is dialing to tcp:3xui.qwapi.eu.org:10377, mode packet-up, HTTP version 2, host 3xui.qwapi.eu.org"}
+{"time":"2025-09-21T00:26:27.115617+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:27.115593 [Info] [1919904508] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:10377"}
+{"time":"2025-09-21T00:26:29.230944+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:29.230903 [Info] [1184078144] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:26:29.231194+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:29.231184 from 127.0.0.1:53774 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:26:29.231183+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:29.231172 [Info] [1184078144] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:26:29.231253+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:29.231244 [Info] [1184078144] transport/internet/splithttp: XHTTP is dialing to tcp:3xui.qwapi.eu.org:10377, mode packet-up, HTTP version 2, host 3xui.qwapi.eu.org"}
+{"time":"2025-09-21T00:26:29.231335+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:29.231308 [Info] [1184078144] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:10377"}
+{"time":"2025-09-21T00:26:30.598923+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:30.598906 from 127.0.0.1:53785 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:26:30.598903+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:30.598859 [Info] [2916549223] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:26:30.598911+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:30.598899 [Info] [2916549223] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:26:30.599069+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:30.599055 [Info] [2916549223] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:10377"}
+{"time":"2025-09-21T00:26:30.598957+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:30.598938 [Info] [2916549223] transport/internet/splithttp: XHTTP is dialing to tcp:3xui.qwapi.eu.org:10377, mode packet-up, HTTP version 2, host 3xui.qwapi.eu.org"}
+{"time":"2025-09-21T00:26:32.157915+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:32.157881 from 127.0.0.1:53796 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:26:32.157876+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:32.157831 [Info] [1484919329] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:26:32.157941+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:32.157925 [Info] [1484919329] transport/internet/splithttp: XHTTP is dialing to tcp:3xui.qwapi.eu.org:10377, mode packet-up, HTTP version 2, host 3xui.qwapi.eu.org"}
+{"time":"2025-09-21T00:26:32.157885+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:32.157871 [Info] [1484919329] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:26:32.158148+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:32.158124 [Info] [1484919329] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:10377"}
+{"time":"2025-09-21T00:26:33.209239+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:33.209228 from 127.0.0.1:53801 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:26:33.209197+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:33.209170 [Info] [2692861343] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:26:33.209225+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:33.209211 [Info] [2692861343] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:26:33.209286+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:33.209256 [Info] [2692861343] transport/internet/splithttp: XHTTP is dialing to tcp:3xui.qwapi.eu.org:10377, mode packet-up, HTTP version 2, host 3xui.qwapi.eu.org"}
+{"time":"2025-09-21T00:26:33.209357+08:00","level":"info","source":"xray","message":"2025/09/21 00:26:33.209326 [Info] [2692861343] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:10377"}
+{"time":"2025-09-21T00:30:07.987093+08:00","level":"info","source":"settings","message":"Settings updated"}
+{"time":"2025-09-21T00:39:12.075394+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:39:12.096091+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:39:12.096084+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:39:12.097715+08:00","level":"info","source":"xray","message":"2025/09/21 00:39:12.097595 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:39:12.100709+08:00","level":"info","source":"xray","message":"2025/09/21 00:39:12.100667 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:39:12.1008+08:00","level":"info","source":"xray","message":"2025/09/21 00:39:12.100740 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:39:12.101084+08:00","level":"info","source":"xray","message":"2025/09/21 00:39:12.101067 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:39:34.295698+08:00","level":"info","source":"system","message":"Disconnected from server"}
+{"time":"2025-09-21T00:41:44.496361+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:41:44.672354+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:41:44.672341+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:41:44.675754+08:00","level":"info","source":"xray","message":"2025/09/21 00:41:44.675410 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:41:44.689884+08:00","level":"info","source":"xray","message":"2025/09/21 00:41:44.689851 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:41:44.689875+08:00","level":"info","source":"xray","message":"2025/09/21 00:41:44.689823 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:41:44.690195+08:00","level":"info","source":"xray","message":"2025/09/21 00:41:44.690168 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:41:50.411753+08:00","level":"info","source":"xray","message":"2025/09/21 00:41:50.410732 [Info] [1372526368] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:41:50.412232+08:00","level":"info","source":"xray","message":"2025/09/21 00:41:50.412221 [Info] [1372526368] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:41:50.412288+08:00","level":"info","source":"xray","message":"2025/09/21 00:41:50.412246 from 127.0.0.1:60238 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:41:50.414574+08:00","level":"info","source":"xray","message":"2025/09/21 00:41:50.414552 [Info] [1372526368] transport/internet/splithttp: XHTTP is dialing to tcp:3xui.qwapi.eu.org:10377, mode packet-up, HTTP version 2, host 3xui.qwapi.eu.org"}
+{"time":"2025-09-21T00:41:50.84948+08:00","level":"info","source":"xray","message":"2025/09/21 00:41:50.849442 [Info] [1372526368] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:10377"}
+{"time":"2025-09-21T00:41:51.006982+08:00","level":"info","source":"xray","message":"2025/09/21 00:41:51.006949 [Info] [1372526368] transport/internet/splithttp: unexpected status 404"}
+{"time":"2025-09-21T00:41:51.006995+08:00","level":"info","source":"xray","message":"2025/09/21 00:41:51.006958 [Info] [1372526368] transport/internet/splithttp: failed to send upload \u003e transport/internet/splithttp: bad status code:404 Not Found"}
+{"time":"2025-09-21T00:41:52.00906+08:00","level":"info","source":"xray","message":"2025/09/21 00:41:52.009002 [Info] [1372526368] app/proxyman/inbound: connection ends \u003e proxy/http: connection ends \u003e context canceled"}
+{"time":"2025-09-21T00:41:53.062745+08:00","level":"info","source":"xray","message":"2025/09/21 00:41:53.062706 [Info] [2471922411] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:41:53.062781+08:00","level":"info","source":"xray","message":"2025/09/21 00:41:53.062775 [Info] [2471922411] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:41:53.06282+08:00","level":"info","source":"xray","message":"2025/09/21 00:41:53.062796 from 127.0.0.1:60260 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:41:53.063186+08:00","level":"info","source":"xray","message":"2025/09/21 00:41:53.063175 [Info] [2471922411] transport/internet/splithttp: XHTTP is dialing to tcp:3xui.qwapi.eu.org:10377, mode packet-up, HTTP version 2, host 3xui.qwapi.eu.org"}
+{"time":"2025-09-21T00:41:53.063284+08:00","level":"info","source":"xray","message":"2025/09/21 00:41:53.063271 [Info] [2471922411] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:10377"}
+{"time":"2025-09-21T00:41:53.221833+08:00","level":"info","source":"xray","message":"2025/09/21 00:41:53.221770 [Info] [2471922411] transport/internet/splithttp: unexpected status 404"}
+{"time":"2025-09-21T00:41:53.221993+08:00","level":"info","source":"xray","message":"2025/09/21 00:41:53.221967 [Info] [2471922411] transport/internet/splithttp: failed to send upload \u003e transport/internet/splithttp: bad status code:404 Not Found"}
+{"time":"2025-09-21T00:41:54.222204+08:00","level":"info","source":"xray","message":"2025/09/21 00:41:54.222100 [Info] [2471922411] app/proxyman/inbound: connection ends \u003e proxy/http: connection ends \u003e context canceled"}
+{"time":"2025-09-21T00:42:04.637901+08:00","level":"info","source":"config","message":"Updated server: xhttp-wwk3u55j"}
+{"time":"2025-09-21T00:42:07.227641+08:00","level":"info","source":"system","message":"Disconnected from server"}
+{"time":"2025-09-21T00:42:07.553671+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:42:07.568555+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:42:07.568544+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:42:07.56906+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:07.568941 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:42:07.570257+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:07.570219 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:42:07.570253+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:07.570210 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:42:07.570537+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:07.570494 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:42:11.35306+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:11.353013 from 127.0.0.1:60422 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:42:11.352967+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:11.352923 [Info] [4135765800] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:42:11.352994+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:11.352980 [Info] [4135765800] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:42:11.353197+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:11.353154 [Info] [4135765800] transport/internet/splithttp: XHTTP is dialing to tcp:3xui.qwapi.eu.org:10377, mode packet-up, HTTP version 2, host 3xui.qwapi.eu.org"}
+{"time":"2025-09-21T00:42:11.736599+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:11.736545 [Info] [4135765800] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:10377"}
+{"time":"2025-09-21T00:42:11.901649+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:11.901621 [Info] [4135765800] transport/internet/splithttp: unexpected status 404"}
+{"time":"2025-09-21T00:42:11.901666+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:11.901632 [Info] [4135765800] transport/internet/splithttp: failed to send upload \u003e transport/internet/splithttp: bad status code:404 Not Found"}
+{"time":"2025-09-21T00:42:12.902823+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:12.902781 [Info] [4135765800] app/proxyman/inbound: connection ends \u003e proxy/http: connection ends \u003e context canceled"}
+{"time":"2025-09-21T00:42:14.068259+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:14.068209 [Info] [2927450149] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:42:14.068254+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:14.068176 [Info] [2927450149] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:42:14.068646+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:14.068533 [Info] [2927450149] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:10377"}
+{"time":"2025-09-21T00:42:14.068644+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:14.068406 from 127.0.0.1:60442 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:42:14.068646+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:14.068414 [Info] [2927450149] transport/internet/splithttp: XHTTP is dialing to tcp:3xui.qwapi.eu.org:10377, mode packet-up, HTTP version 2, host 3xui.qwapi.eu.org"}
+{"time":"2025-09-21T00:42:14.233993+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:14.233966 [Info] [2927450149] transport/internet/splithttp: unexpected status 404"}
+{"time":"2025-09-21T00:42:14.234157+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:14.234145 [Info] [2927450149] transport/internet/splithttp: failed to send upload \u003e transport/internet/splithttp: bad status code:404 Not Found"}
+{"time":"2025-09-21T00:42:15.234953+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:15.234900 [Info] [2927450149] app/proxyman/inbound: connection ends \u003e proxy/http: connection ends \u003e context canceled"}
+{"time":"2025-09-21T00:42:36.802177+08:00","level":"info","source":"config","message":"Selected server: b53b7fbf-3977-4222-bfbc-8e5c9adfad74"}
+{"time":"2025-09-21T00:42:39.916006+08:00","level":"info","source":"system","message":"Disconnected from server"}
+{"time":"2025-09-21T00:42:40.111742+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:42:40.125384+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:42:40.125526+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:40.125431 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:42:40.125375+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:42:40.128345+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:40.128325 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:42:40.128342+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:40.128299 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:42:40.128344+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:40.128322 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:42:51.538725+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:51.538591 [Info] [2348787982] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:42:51.538624+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:51.538490 [Info] [2348787982] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:42:51.538766+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:51.538741 from 127.0.0.1:60726 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:42:51.539018+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:51.539001 [Info] [2348787982] transport/internet/tcp: dialing TCP to tcp:3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-21T00:42:51.906186+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:51.906152 [Info] [2348787982] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-21T00:42:55.00242+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:55.002403 from 127.0.0.1:60756 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:42:55.002399+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:55.002388 [Info] [1564816869] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:42:55.002446+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:55.002427 [Info] [1564816869] transport/internet/tcp: dialing TCP to tcp:3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-21T00:42:55.002381+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:55.002336 [Info] [1564816869] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:42:55.360758+08:00","level":"info","source":"xray","message":"2025/09/21 00:42:55.360667 [Info] [1564816869] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:17301"}
+{"time":"2025-09-21T00:43:04.938214+08:00","level":"info","source":"config","message":"Selected server: 10df88ab-d5a6-48e4-a0b5-7a121102c99b"}
+{"time":"2025-09-21T00:43:10.293912+08:00","level":"info","source":"system","message":"Disconnected from server"}
+{"time":"2025-09-21T00:43:10.744891+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:43:10.760978+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:43:10.760968+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:43:10.761109+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:10.761030 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:43:10.762197+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:10.761783 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:43:10.76222+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:10.762205 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:43:10.762218+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:10.762200 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:43:14.325231+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:14.325199 from 127.0.0.1:60892 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:43:14.325185+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:14.325173 [Info] [2835120422] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:43:14.325168+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:14.325128 [Info] [2835120422] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:43:14.325362+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:14.325332 [Info] [2835120422] transport/internet/splithttp: XHTTP is dialing to tcp:3xui.qwapi.eu.org:10377, mode packet-up, HTTP version 2, host 3xui.qwapi.eu.org"}
+{"time":"2025-09-21T00:43:14.673514+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:14.673472 [Info] [2835120422] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:10377"}
+{"time":"2025-09-21T00:43:14.839986+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:14.839933 [Info] [2835120422] transport/internet/splithttp: unexpected status 404"}
+{"time":"2025-09-21T00:43:14.840051+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:14.840007 [Info] [2835120422] transport/internet/splithttp: failed to send upload \u003e transport/internet/splithttp: bad status code:404 Not Found"}
+{"time":"2025-09-21T00:43:15.84122+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:15.841150 [Info] [2835120422] app/proxyman/inbound: connection ends \u003e proxy/http: connection ends \u003e context canceled"}
+{"time":"2025-09-21T00:43:16.982083+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:16.982034 [Info] [12960675] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:43:16.982118+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:16.982090 from 127.0.0.1:60919 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:43:16.982097+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:16.982059 [Info] [12960675] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:43:16.982167+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:16.982133 [Info] [12960675] transport/internet/splithttp: XHTTP is dialing to tcp:3xui.qwapi.eu.org:10377, mode packet-up, HTTP version 2, host 3xui.qwapi.eu.org"}
+{"time":"2025-09-21T00:43:16.982261+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:16.982253 [Info] [12960675] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:10377"}
+{"time":"2025-09-21T00:43:17.148615+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:17.148574 [Info] [12960675] transport/internet/splithttp: unexpected status 404"}
+{"time":"2025-09-21T00:43:17.148639+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:17.148590 [Info] [12960675] transport/internet/splithttp: failed to send upload \u003e transport/internet/splithttp: bad status code:404 Not Found"}
+{"time":"2025-09-21T00:43:18.149143+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:18.149096 [Info] [12960675] app/proxyman/inbound: connection ends \u003e proxy/http: connection ends \u003e context canceled"}
+{"time":"2025-09-21T00:43:28.084313+08:00","level":"info","source":"config","message":"Updated server: xhttp-wwk3u55j"}
+{"time":"2025-09-21T00:43:30.667239+08:00","level":"info","source":"system","message":"Disconnected from server"}
+{"time":"2025-09-21T00:43:31.073854+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:43:31.090858+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:43:31.090851+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:43:31.091553+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:31.091249 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:43:31.093029+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:31.092991 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:43:31.093021+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:31.092961 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:43:31.093025+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:31.092989 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:43:35.094377+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:35.094168 [Info] [2195489106] transport/internet/splithttp: XHTTP is dialing to tcp:3xui.qwapi.eu.org:10377, mode packet-up, HTTP version 2, host 3xui.qwapi.eu.org"}
+{"time":"2025-09-21T00:43:35.094354+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:35.093892 [Info] [2195489106] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:43:35.094365+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:35.093959 [Info] [2195489106] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:43:35.09437+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:35.094127 from 127.0.0.1:61063 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:43:35.766303+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:35.766246 [Info] [2195489106] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:10377"}
+{"time":"2025-09-21T00:43:35.94376+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:35.943744 [Info] [2195489106] transport/internet/splithttp: failed to send upload \u003e transport/internet/splithttp: bad status code:404 Not Found"}
+{"time":"2025-09-21T00:43:35.943756+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:35.943718 [Info] [2195489106] transport/internet/splithttp: unexpected status 404"}
+{"time":"2025-09-21T00:43:36.944884+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:36.944844 [Info] [2195489106] app/proxyman/inbound: connection ends \u003e proxy/http: connection ends \u003e context canceled"}
+{"time":"2025-09-21T00:43:48.88862+08:00","level":"info","source":"system","message":"Disconnected from server"}
+{"time":"2025-09-21T00:43:49.282014+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:43:49.296821+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:43:49.296811+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:43:49.297011+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:49.296882 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:43:49.298246+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:49.298225 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:43:49.298569+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:49.298484 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:43:49.298566+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:49.298452 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:43:50.322454+08:00","level":"info","source":"system","message":"Disconnected from server"}
+{"time":"2025-09-21T00:43:50.68145+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:43:50.692206+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:43:50.692316+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:50.692212 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:43:50.69218+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:43:50.693602+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:50.693571 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:43:50.693585+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:50.693224 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:43:50.693592+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:50.693567 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:43:51.349576+08:00","level":"info","source":"system","message":"Disconnected from server"}
+{"time":"2025-09-21T00:43:51.647244+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:43:51.655012+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:43:51.65501+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:43:51.655277+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:51.655169 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:43:51.656099+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:51.656076 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:43:51.656097+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:51.656075 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:43:51.656095+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:51.656066 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:43:52.279311+08:00","level":"info","source":"system","message":"Disconnected from server"}
+{"time":"2025-09-21T00:43:52.428694+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:43:52.438536+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:43:52.438531+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:43:52.438664+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:52.438576 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:43:52.439568+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:52.439538 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:43:52.439564+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:52.439536 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:43:52.439552+08:00","level":"info","source":"xray","message":"2025/09/21 00:43:52.439528 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:44:16.924658+08:00","level":"info","source":"system","message":"Disconnected from server"}
+{"time":"2025-09-21T00:44:17.50174+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:44:17.518389+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:44:17.518402+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:44:17.518538+08:00","level":"info","source":"xray","message":"2025/09/21 00:44:17.518457 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:44:17.519263+08:00","level":"info","source":"xray","message":"2025/09/21 00:44:17.519237 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:44:17.519495+08:00","level":"info","source":"xray","message":"2025/09/21 00:44:17.519453 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:44:17.519488+08:00","level":"info","source":"xray","message":"2025/09/21 00:44:17.519444 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:45:14.078245+08:00","level":"info","source":"config","message":"Selected server: 10df88ab-d5a6-48e4-a0b5-7a121102c99b"}
+{"time":"2025-09-21T00:45:15.958682+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:45:16.018087+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:45:16.018103+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:45:16.019926+08:00","level":"info","source":"xray","message":"2025/09/21 00:45:16.019839 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:45:16.022428+08:00","level":"info","source":"xray","message":"2025/09/21 00:45:16.022410 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:45:16.022479+08:00","level":"info","source":"xray","message":"2025/09/21 00:45:16.022471 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:45:16.02327+08:00","level":"info","source":"xray","message":"2025/09/21 00:45:16.023258 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:45:24.080974+08:00","level":"info","source":"xray","message":"2025/09/21 00:45:24.080829 [Info] [4008568394] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:45:24.082352+08:00","level":"info","source":"xray","message":"2025/09/21 00:45:24.082320 from 127.0.0.1:61901 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:45:24.08232+08:00","level":"info","source":"xray","message":"2025/09/21 00:45:24.082281 [Info] [4008568394] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:45:24.084392+08:00","level":"info","source":"xray","message":"2025/09/21 00:45:24.084356 [Info] [4008568394] transport/internet/splithttp: XHTTP is dialing to tcp:3xui.qwapi.eu.org:10377, mode packet-up, HTTP version 2, host 3xui.qwapi.eu.org"}
+{"time":"2025-09-21T00:45:24.459164+08:00","level":"info","source":"xray","message":"2025/09/21 00:45:24.459117 [Info] [4008568394] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:10377"}
+{"time":"2025-09-21T00:45:27.744668+08:00","level":"info","source":"xray","message":"2025/09/21 00:45:27.744629 [Info] [4008568394] app/proxyman/inbound: connection ends \u003e proxy/http: connection ends \u003e context canceled"}
+{"time":"2025-09-21T00:45:30.264033+08:00","level":"info","source":"config","message":"Selected server: b53b7fbf-3977-4222-bfbc-8e5c9adfad74"}
+{"time":"2025-09-21T00:45:31.190367+08:00","level":"info","source":"config","message":"Selected server: 10df88ab-d5a6-48e4-a0b5-7a121102c99b"}
+{"time":"2025-09-21T00:45:58.356211+08:00","level":"info","source":"config","message":"Selected server: b53b7fbf-3977-4222-bfbc-8e5c9adfad74"}
+{"time":"2025-09-21T00:45:59.299328+08:00","level":"info","source":"config","message":"Selected server: 10df88ab-d5a6-48e4-a0b5-7a121102c99b"}
+{"time":"2025-09-21T00:48:01.009101+08:00","level":"info","source":"config","message":"Selected server: b53b7fbf-3977-4222-bfbc-8e5c9adfad74"}
+{"time":"2025-09-21T00:48:01.14933+08:00","level":"info","source":"system","message":"Disconnected from server"}
+{"time":"2025-09-21T00:48:01.156694+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:48:01.168109+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:48:01.168102+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:48:01.168561+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:01.168476 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:48:01.169931+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:01.169910 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:48:01.170521+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:01.170497 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:48:01.170518+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:01.170170 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:48:02.518974+08:00","level":"info","source":"config","message":"Selected server: 10df88ab-d5a6-48e4-a0b5-7a121102c99b"}
+{"time":"2025-09-21T00:48:02.626089+08:00","level":"info","source":"system","message":"Disconnected from server"}
+{"time":"2025-09-21T00:48:02.634059+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:48:02.645251+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:48:02.645245+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:48:02.645554+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:02.645358 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:48:02.646634+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:02.646577 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:48:02.646642+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:02.646599 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:48:02.646643+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:02.646601 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:48:04.45295+08:00","level":"info","source":"config","message":"Selected server: b53b7fbf-3977-4222-bfbc-8e5c9adfad74"}
+{"time":"2025-09-21T00:48:04.547674+08:00","level":"info","source":"system","message":"Disconnected from server"}
+{"time":"2025-09-21T00:48:04.559098+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:48:04.568696+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:48:04.568689+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:48:04.568821+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:04.568741 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:48:04.570182+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:04.570181 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:48:04.570195+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:04.570184 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:48:04.57018+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:04.569884 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:48:05.361736+08:00","level":"info","source":"config","message":"Selected server: 10df88ab-d5a6-48e4-a0b5-7a121102c99b"}
+{"time":"2025-09-21T00:48:05.480182+08:00","level":"info","source":"system","message":"Disconnected from server"}
+{"time":"2025-09-21T00:48:05.487054+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:48:05.496948+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:48:05.497073+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:05.496994 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:48:05.496942+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:48:05.497749+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:05.497728 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:48:05.497746+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:05.497723 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:48:05.497748+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:05.497727 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:48:06.431236+08:00","level":"info","source":"config","message":"Selected server: b53b7fbf-3977-4222-bfbc-8e5c9adfad74"}
+{"time":"2025-09-21T00:48:06.560438+08:00","level":"info","source":"system","message":"Disconnected from server"}
+{"time":"2025-09-21T00:48:06.567607+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:48:06.575051+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:48:06.575047+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:48:06.575197+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:06.575120 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:48:06.575866+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:06.575853 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:48:06.576127+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:06.576117 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:48:06.576138+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:06.576132 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:48:10.669014+08:00","level":"info","source":"config","message":"Selected server: 10df88ab-d5a6-48e4-a0b5-7a121102c99b"}
+{"time":"2025-09-21T00:48:10.784094+08:00","level":"info","source":"system","message":"Disconnected from server"}
+{"time":"2025-09-21T00:48:10.793537+08:00","level":"info","source":"system","message":"Connected to server"}
+{"time":"2025-09-21T00:48:10.803138+08:00","level":"info","source":"xray","message":"A unified platform for anti-censorship."}
+{"time":"2025-09-21T00:48:10.803132+08:00","level":"info","source":"xray","message":"Xray 25.6.8 (Xray, Penetrates Everything.) fbae89d (go1.24.4 darwin/arm64)"}
+{"time":"2025-09-21T00:48:10.803277+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:10.803180 [Info] infra/conf/serial: Reading config: \u0026{Name:./config.json Format:json}"}
+{"time":"2025-09-21T00:48:10.804134+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:10.804127 [Warning] core: Xray 25.6.8 started"}
+{"time":"2025-09-21T00:48:10.804131+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:10.804122 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1097"}
+{"time":"2025-09-21T00:48:10.804133+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:10.804126 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:1098"}
+{"time":"2025-09-21T00:48:22.529618+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:22.529590 [Info] [271144072] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:48:22.529668+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:22.529647 from 127.0.0.1:63040 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:48:22.529613+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:22.529574 [Info] [271144072] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:48:22.52977+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:22.529759 [Info] [271144072] transport/internet/splithttp: XHTTP is dialing to tcp:3xui.qwapi.eu.org:10377, mode packet-up, HTTP version 2, host 3xui.qwapi.eu.org"}
+{"time":"2025-09-21T00:48:23.004393+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:23.004357 [Info] [271144072] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:10377"}
+{"time":"2025-09-21T00:48:26.534458+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:26.534451 [Info] [3404654570] app/dispatcher: default route for tcp:www.httpbin.org:443"}
+{"time":"2025-09-21T00:48:26.534476+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:26.534462 from 127.0.0.1:63078 accepted //www.httpbin.org:443 [http \u003e\u003e proxy]"}
+{"time":"2025-09-21T00:48:26.534451+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:26.534407 [Info] [3404654570] proxy/http: request to Method [CONNECT] Host [www.httpbin.org:443] with URL [//www.httpbin.org:443]"}
+{"time":"2025-09-21T00:48:26.53457+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:26.534528 [Info] [3404654570] transport/internet/splithttp: XHTTP is dialing to tcp:3xui.qwapi.eu.org:10377, mode packet-up, HTTP version 2, host 3xui.qwapi.eu.org"}
+{"time":"2025-09-21T00:48:26.534643+08:00","level":"info","source":"xray","message":"2025/09/21 00:48:26.534634 [Info] [3404654570] proxy/vmess/outbound: tunneling request to tcp:www.httpbin.org:443 via 3xui.qwapi.eu.org:10377"}
