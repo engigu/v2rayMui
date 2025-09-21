@@ -95,8 +95,7 @@ final class GoServerManager {
         var attempt = 0
         while Date() < deadline {
             attempt += 1
-            let sem = DispatchSemaphore(value: 1)
-            sem.wait()
+            let sem = DispatchSemaphore(value: 0)
             var ok = false
             let task = session.dataTask(with: url) { _, resp, err in
                 defer { sem.signal() }
@@ -110,7 +109,7 @@ final class GoServerManager {
                 }
             }
             task.resume()
-            _ = sem.wait(timeout: .now() + 0.7)
+            _ = sem.wait(timeout: .now() + 0.9)
             if ok { self.debugLog("health OK"); return }
             Thread.sleep(forTimeInterval: 0.2)
         }
