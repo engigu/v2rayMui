@@ -117,6 +117,17 @@
                 </template>
               </span>
             </div>
+            <div class="flex justify-between">
+              <span class="text-sm">UDP</span>
+              <span class="text-sm">
+                <template v-if="loading">
+                  <span class="inline-block h-3 w-16 bg-muted rounded animate-pulse"></span>
+                </template>
+                <template v-else>
+                  {{ settings.udpEnabled ? '已启用' : '未启用' }}
+                </template>
+              </span>
+            </div>
             <div class="pt-2 flex gap-2">
               <Button size="sm" variant="outline" @click="copyEnableProxy" :disabled="loading">
                 复制启用命令

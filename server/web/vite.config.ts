@@ -19,6 +19,7 @@ export default defineConfig({
       dts: true
     })
   ],
+  publicDir: resolve(__dirname, 'src/public'),
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src')
@@ -28,12 +29,12 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'http://localhost:58080',
+        target: `http://localhost:${process.env.VITE_API_PORT || '58080'}`,
         changeOrigin: true
       }
     }
   },
   build: {
-    outDir: 'dist'
+    outDir: '../dist'
   }
 })

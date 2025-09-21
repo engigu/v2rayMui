@@ -6,11 +6,12 @@ final class StatusViewModel: ObservableObject {
     @Published var statusText: String = "disconnected"
     @Published var selectedName: String? = nil
     @Published var isLoading: Bool = false
+    @Published var goServerRunning: Bool = false
 
     private let baseURL: URL
     private var timer: Timer?
 
-    init(address: String = "127.0.0.1", port: Int = 58080) {
+    init(address: String = AppConfig.serverAddress, port: Int = AppConfig.serverPort) {
         self.baseURL = URL(string: "http://\(address):\(port)/api/v1")!
         Task { await fetchStatus() }
         startPolling()
@@ -36,6 +37,7 @@ final class StatusViewModel: ObservableObject {
                 print("[Status] body: \(body)")
             }
             if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                self.goServerRunning = true
                 self.connected = (json["connected"] as? Bool) ?? false
                 self.statusText = (json["status"] as? String) ?? "unknown"
                 if let selected = json["selected"] as? [String: Any] {
@@ -46,6 +48,7 @@ final class StatusViewModel: ObservableObject {
             }
         } catch {
             print("[Status] fetch error: \(error)")
+            self.goServerRunning = false
             self.statusText = "unreachable"
         }
     }

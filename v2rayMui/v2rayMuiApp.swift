@@ -14,15 +14,33 @@ struct v2rayMuiApp: App {
 
     var body: some Scene {
         // 仅状态栏应用（macOS 13+）
-        MenuBarExtra("V2Ray", systemImage: "network") {
+        MenuBarExtra {
             StatusMenuView()
+        } label: {
+            StatusBarIconView()
         }
+        .menuBarExtraStyle(.window)
     }
 }
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
+    private let goManager = GoServerManager()
     func applicationDidFinishLaunching(_ notification: Notification) {
         // 隐藏 Dock 图标，仅显示状态栏图标
         NSApp.setActivationPolicy(.accessory)
+        goManager.startServerIfNeeded()
+    }
+
+    func applicationWillTerminate(_ notification: Notification) {
+        goManager.requestGoServerExit(wait: 0.6)
+        goManager.stopServerIfRunning()
+        print("applicationWillTerminate")
+    }
+
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        goManager.requestGoServerExit(wait: 0.6)
+        goManager.stopServerIfRunning()
+        print("applicationShouldTerminate")
+        return .terminateNow
     }
 }

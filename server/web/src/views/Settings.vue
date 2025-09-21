@@ -20,7 +20,7 @@
             <Checkbox
               id="auto-connect"
               :checked="settings.autoConnect"
-              @update:checked="updateAutoConnect"
+              @update:checked="v => updateAutoConnect(!!v)"
             />
           </div>
 
@@ -44,7 +44,7 @@
             <Checkbox
               id="start-at-login"
               :checked="settings.startAtLogin"
-              @update:checked="updateStartAtLogin"
+              @update:checked="v => updateStartAtLogin(!!v)"
             />
           </div>
         </CardContent>
@@ -136,28 +136,30 @@
             </div>
           </div>
 
-          <div class="flex items-center justify-between">
-            <div>
-              <Label for="udp-enabled">启用 UDP</Label>
-              <p class="text-sm text-muted-foreground">启用 UDP 转发</p>
+          <div class="flex gap-4">
+            <div class="flex-1 flex items-center justify-between">
+              <div>
+                <Label for="udp-enabled">启用 UDP</Label>
+                <p class="text-sm text-muted-foreground">启用 UDP 转发</p>
+              </div>
+              <Checkbox
+                id="udp-enabled"
+                :checked="settings.udpEnabled"
+                @update:checked="v => updateUDPEnabled(!!v)"
+              />
             </div>
-            <Checkbox
-              id="udp-enabled"
-              :checked="settings.udpEnabled"
-              @update:checked="updateUDPEnabled"
-            />
-          </div>
 
-          <div class="flex items-center justify-between">
-            <div>
-              <Label for="mux-enabled">启用 Mux</Label>
-              <p class="text-sm text-muted-foreground">启用多路复用</p>
+            <div class="flex-1 flex items-center justify-between">
+              <div>
+                <Label for="mux-enabled">启用 Mux</Label>
+                <p class="text-sm text-muted-foreground">启用多路复用</p>
+              </div>
+              <Checkbox
+                id="mux-enabled"
+                :checked="settings.muxEnabled"
+                @update:checked="v => updateMuxEnabled(!!v)"
+              />
             </div>
-            <Checkbox
-              id="mux-enabled"
-              :checked="settings.muxEnabled"
-              @update:checked="updateMuxEnabled"
-            />
           </div>
 
           <div v-if="settings.muxEnabled">
@@ -183,27 +185,22 @@
         </CardHeader>
         <CardContent>
           <div class="space-y-2 text-sm">
-            <div class="flex items-center gap-2">
-              <span class="relative inline-flex h-3 w-3">
-                <span
-                  class="absolute inline-flex h-full w-full rounded-full opacity-60"
-                  :class="core.running ? 'animate-ping bg-emerald-400' : 'animate-pulse bg-red-400'"
-                ></span>
-                <span
-                  class="relative inline-flex rounded-full h-3 w-3"
-                  :class="core.running ? 'bg-emerald-600' : 'bg-red-600'"
-                ></span>
-              </span>
-              <span class="font-medium" :class="core.running ? 'text-emerald-600' : 'text-red-600'">
-                {{ core.running ? '运行中' : '未运行' }}
-              </span>
-            </div>
-            <div>
-              <div class="text-muted-foreground mb-1">版本</div>
-              <div v-if="coreLoading" class="h-4 w-48 bg-muted rounded animate-pulse"></div>
-              <pre v-else class="p-2 rounded bg-muted/40 text-xs whitespace-pre-wrap break-words transition-opacity duration-300">{{ core.version || '未知' }}</pre>
-            </div>
-            <div class="pt-1 flex justify-end">
+            <div class="flex items-center justify-between gap-3">
+              <div class="flex items-center gap-2">
+                <span class="relative inline-flex h-3 w-3">
+                  <span
+                    class="absolute inline-flex h-full w-full rounded-full opacity-60"
+                    :class="core.running ? 'animate-ping bg-emerald-400' : 'animate-pulse bg-red-400'"
+                  ></span>
+                  <span
+                    class="relative inline-flex rounded-full h-3 w-3"
+                    :class="core.running ? 'bg-emerald-600' : 'bg-red-600'"
+                  ></span>
+                </span>
+                <span class="font-medium" :class="core.running ? 'text-emerald-600' : 'text-red-600'">
+                  {{ core.running ? '运行中' : '未运行' }}
+                </span>
+              </div>
               <Button
                 size="icon"
                 variant="ghost"
@@ -216,6 +213,19 @@
                 <RefreshCw class="w-4 h-4" :class="{ 'animate-spin': coreLoading }"/>
               </Button>
             </div>
+            <div class="grid grid-cols-1 gap-2">
+              <div>
+                <div class="text-muted-foreground mb-1">版本</div>
+                <div v-if="coreLoading" class="h-4 w-48 bg-muted rounded animate-pulse"></div>
+                <pre v-else class="p-2 rounded bg-muted/40 text-xs whitespace-pre-wrap break-words transition-opacity duration-300">{{ core.version || '未知' }}</pre>
+              </div>
+              <div>
+                <div class="text-muted-foreground mb-1">二进制路径</div>
+                <div v-if="coreLoading" class="h-4 w-64 bg-muted rounded animate-pulse"></div>
+                <pre v-else class="p-2 rounded bg-muted/40 text-xs whitespace-pre-wrap break-words transition-opacity duration-300">{{ (core as any).binPath || '未知' }}</pre>
+              </div>
+            </div>
+          
           </div>
         </CardContent>
       </Card>

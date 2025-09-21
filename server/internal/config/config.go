@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+    "strings"
 
 	"github.com/spf13/viper"
 )
@@ -15,11 +16,14 @@ type Config struct {
 	Proxy    ProxyConfig    `mapstructure:"proxy"`
 	Log      LogConfig      `mapstructure:"log"`
 	Settings SettingsConfig `mapstructure:"settings"`
+	Web      WebConfig      `mapstructure:"web"`
 }
 
 type ServerConfig struct {
 	Address string `mapstructure:"address"`
 	Port    int    `mapstructure:"port"`
+	GinMode string `mapstructure:"gin_mode"`
+    AccessLog bool `mapstructure:"access_log"`
 }
 
 type V2RayConfig struct {
@@ -47,11 +51,19 @@ type SettingsConfig struct {
 	DataPath string `mapstructure:"data_path"`
 }
 
+type WebConfig struct {
+	// mode: embed | dev
+	Mode   string `mapstructure:"mode"`
+	DevURL string `mapstructure:"dev_url"`
+}
+
 func Load() (*Config, error) {
 	// 设置默认值
 	viper.SetDefault("server.address", "127.0.0.1")
 	viper.SetDefault("server.port", 58080)
-	viper.SetDefault("v2ray.binary_path", "./bin/xray")
+	viper.SetDefault("server.gin_mode", "release")
+    viper.SetDefault("server.access_log", false)
+	//viper.SetDefault("v2ray.binary_path", "")
 	viper.SetDefault("v2ray.config_path", "./config.json")
 	viper.SetDefault("v2ray.log_path", "./logs/v2ray.log")
 	viper.SetDefault("proxy.http.host", "127.0.0.1")
@@ -61,6 +73,10 @@ func Load() (*Config, error) {
 	viper.SetDefault("log.level", "info")
 	viper.SetDefault("log.max_age", 7)
 	viper.SetDefault("settings.data_path", "./data")
+
+	// web defaults
+	viper.SetDefault("web.mode", "embed")
+	viper.SetDefault("web.dev_url", "http://localhost:5173")
 
 	// 设置配置文件
 	viper.SetConfigName("config")
@@ -90,7 +106,9 @@ func Load() (*Config, error) {
 	}
 
 	// 环境变量覆盖
-	viper.AutomaticEnv()
+    // 允许用环境变量覆盖嵌套字段，例如 SERVER_PORT 覆盖 server.port
+    viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
+    viper.AutomaticEnv()
 
 	var config Config
 	if err := viper.Unmarshal(&config); err != nil {

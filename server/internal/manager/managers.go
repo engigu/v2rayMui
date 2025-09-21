@@ -18,12 +18,12 @@ type Managers struct {
 }
 
 func NewManagers(cfg *config.Config) *Managers {
-    m := &Managers{
-        Proxy:    proxy.New(cfg),
-        Settings: settings.New(cfg),
-        Config:   configmgr.New(cfg),
-        Log:      log.New(cfg),
-    }
-    m.V2Ray = v2ray.New(cfg, m.Log)
-    return m
+	m := &Managers{
+		Settings: settings.New(cfg),
+		Proxy:    proxy.New(cfg),
+		Config:   configmgr.New(cfg),
+		Log:      log.New(cfg),
+	}
+	m.V2Ray = v2ray.New(cfg, m.Log)
+	return m
 }

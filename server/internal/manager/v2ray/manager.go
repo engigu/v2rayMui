@@ -1,14 +1,16 @@
 package v2ray
 
 import (
-    "bytes"
 	"bufio"
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/fs"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 	"sync"
 	"time"
@@ -28,6 +30,8 @@ type Manager struct {
 	status     string
 	configData *types.V2RayConfig
 	logger     *applog.Manager
+	binaryPath string
+	//binFS      fs.FS
 }
 
 func New(cfg *config.Config, logger *applog.Manager) *Manager {
@@ -57,8 +61,35 @@ func (m *Manager) Start(config *types.V2RayConfig) error {
 	// 创建上下文
 	m.ctx, m.cancel = context.WithCancel(context.Background())
 
+	// 确认二进制可用：若配置的 binary_path 不存在，则尝试从内置资源解压到临时目录
+	//binPath := m.config.V2Ray.BinaryPath
+	BinaryPath := m.config.V2Ray.BinaryPath + "/xray"
+	binPath := BinaryPath
+	//m.config.V2Ray.BinaryPath = BinaryPath
+	//if _, err := os.Stat(binPath); os.IsNotExist(err) {
+	//	// Extract ALL embedded bin/* files to data/bin
+	//	outDir := filepath.Join(m.config.Settings.DataPath, "bin")
+	//	_ = os.MkdirAll(outDir, 0755)
+	//	_ = extractAllEmbeddedResources(outDir, m.binFS)
+	//
+	//	// choose by name from embed/output directory
+	//	name := filepath.Base(binPath)
+	//	if name == "." || name == "/" || name == "" {
+	//		name = "xray"
+	//	}
+	//	candidate := filepath.Join(outDir, name)
+	//	if _, err2 := os.Stat(candidate); err2 == nil {
+	//		abs, _ := filepath.Abs(candidate)
+	//		binPath = abs
+	//		// 保证只是解压一次
+	//		m.config.V2Ray.BinaryPath = binPath
+	//		m.logger.AddLog("info", "loaded xray path:", binPath)
+	//	}
+	//}
+
 	// 启动进程
-	m.process = exec.CommandContext(m.ctx, m.config.V2Ray.BinaryPath, "-config", m.config.V2Ray.ConfigPath)
+	m.binaryPath = binPath
+	m.process = exec.CommandContext(m.ctx, binPath, "-config", m.config.V2Ray.ConfigPath)
 	stdout, _ := m.process.StdoutPipe()
 	stderr, _ := m.process.StderrPipe()
 
@@ -78,6 +109,33 @@ func (m *Manager) Start(config *types.V2RayConfig) error {
 	go m.monitorProcess()
 
 	return nil
+}
+
+// extractAllEmbeddedResources writes every file under embed FS path "bin/" into targetDir preserving filenames
+func extractAllEmbeddedResources(targetDir string, efs fs.FS) error {
+	if efs == nil {
+		return nil
+	}
+	// walk embedded bin directory
+	return fs.WalkDir(efs, "bin", func(p string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return nil
+		}
+		if d.IsDir() {
+			return nil
+		}
+		data, rerr := fs.ReadFile(efs, p)
+		if rerr != nil {
+			return nil
+		}
+		// preserve relative structure under bin/
+		rel := strings.TrimPrefix(p, "bin/")
+		outPath := filepath.Join(targetDir, rel)
+		_ = os.MkdirAll(filepath.Dir(outPath), 0755)
+		// write file with executable perms; non-exec files也可
+		_ = os.WriteFile(outPath, data, 0755)
+		return nil
+	})
 }
 
 func (m *Manager) Stop() error {
@@ -102,7 +160,7 @@ func (m *Manager) Stop() error {
 		if cmd == nil {
 			return
 		}
-		time.Sleep(3 * time.Second)
+		time.Sleep(1 * time.Second)
 		if cmd.Process != nil {
 			_ = cmd.Process.Kill()
 		}
@@ -171,16 +229,25 @@ func (m *Manager) captureOutput(pipe io.ReadCloser, level string) {
 
 // GetVersion 返回 xray 核心版本字符串（带超时保护）
 func (m *Manager) GetVersion() string {
-    ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
-    defer cancel()
-    cmd := exec.CommandContext(ctx, m.config.V2Ray.BinaryPath, "-version")
-    var buf bytes.Buffer
-    cmd.Stdout = &buf
-    cmd.Stderr = &buf
-    if err := cmd.Run(); err != nil {
-        return ""
-    }
-    return strings.TrimSpace(buf.String())
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+	cmd := exec.CommandContext(ctx, m.config.V2Ray.BinaryPath, "-version")
+	var buf bytes.Buffer
+	cmd.Stdout = &buf
+	cmd.Stderr = &buf
+	if err := cmd.Run(); err != nil {
+		return ""
+	}
+	return strings.TrimSpace(buf.String())
+}
+
+func (m *Manager) GetBinaryPath() string {
+	m.mu.RLock()
+	defer m.mu.RUnlock()
+	if m.binaryPath != "" {
+		return m.binaryPath
+	}
+	return m.config.V2Ray.BinaryPath
 }
 
 func (m *Manager) DownloadBinary() error {

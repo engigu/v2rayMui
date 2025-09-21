@@ -15,10 +15,17 @@ jobs:
           xcodebuild -version
           sw_vers
 
-      # - name: Prepare Xray binary into Resources
-      #   run: |
-      #     chmod +x ./scripts/download_xray.sh
-      #     ./scripts/download_xray.sh
+      - name: Download Xray core into Resources
+        run: |
+          set -euo pipefail
+          chmod +x ./download_xray.sh || true
+          ./download_xray.sh
+
+      - name: Build web/server and embed Go server
+        run: |
+          set -euo pipefail
+          chmod +x ./build.sh || true
+          ./build.sh
 
       - name: Build Release (unsigned)
         run: |

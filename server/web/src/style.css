@@ -88,12 +88,12 @@
   /* 柔和的极光背景效果 */
   .aurora { position: relative; overflow: hidden; }
   .aurora::before {
-    content: "";
+    /* content: "";
     position: absolute;
     inset: -40%;
     background: conic-gradient(from 0deg, rgba(16,185,129,.18), rgba(59,130,246,.15), rgba(244,63,94,.15), rgba(16,185,129,.18));
     filter: blur(40px);
     animation: rotate-slow 20s linear infinite;
-    pointer-events: none;
+    pointer-events: none; */
   }
 }

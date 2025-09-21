@@ -35,6 +35,7 @@ type Outbound struct {
 	StreamSettings *StreamSettings        `json:"streamSettings,omitempty"`
 	Tag            string                 `json:"tag,omitempty"`
 	ProxySettings  *ProxySettings         `json:"proxySettings,omitempty"`
+    Mux            map[string]interface{} `json:"mux,omitempty"`
 }
 
 type StreamSettings struct {
