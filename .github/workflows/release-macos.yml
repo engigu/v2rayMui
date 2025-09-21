@@ -43,10 +43,34 @@ jobs:
           xcodebuild -version
           sw_vers
 
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: server/go.mod
+          cache: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: server/web/package-lock.json
+
+      - name: Install web deps
+        working-directory: server/web
+        run: npm ci
+
       - name: Prepare Xray binary into Resources (arm64)
         run: |
-          chmod +x ./scripts/download_xray.sh || true
-          DOWNLOAD_ARCH=arm64 ./scripts/download_xray.sh || true
+          set -euo pipefail
+          chmod +x ./download_xray.sh || true
+          DOWNLOAD_ARCH=arm64 ./download_xray.sh || true
+
+      - name: Build web/server and embed Go server
+        run: |
+          set -euo pipefail
+          chmod +x ./build.sh || true
+          ./build.sh
 
       - name: Build Release (unsigned, arm64)
         run: |
@@ -67,7 +91,7 @@ jobs:
             echo "App not found at $APP_PATH" >&2
             exit 1
           fi
-          chmod +x "$APP_PATH/Contents/Resources/v2ray-core/v2ray" || true
+          chmod +x "$APP_PATH/Contents/Resources/bin/xray" || true
           echo "app_path=$APP_PATH" >> $GITHUB_OUTPUT
 
       - name: Package zip (arm64)
@@ -124,10 +148,34 @@ jobs:
           xcodebuild -version
           sw_vers
 
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: server/go.mod
+          cache: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: server/web/package-lock.json
+
+      - name: Install web deps
+        working-directory: server/web
+        run: npm ci
+
       - name: Prepare Xray binary into Resources (x86_64)
         run: |
-          chmod +x ./scripts/download_xray.sh || true
-          DOWNLOAD_ARCH=x86_64 ./scripts/download_xray.sh || true
+          set -euo pipefail
+          chmod +x ./download_xray.sh || true
+          DOWNLOAD_ARCH=x86_64 ./download_xray.sh || true
+
+      - name: Build web/server and embed Go server
+        run: |
+          set -euo pipefail
+          chmod +x ./build.sh || true
+          ./build.sh
 
       - name: Build Release (unsigned, x86_64)
         run: |
@@ -149,7 +197,7 @@ jobs:
             echo "App not found at $APP_PATH" >&2
             exit 1
           fi
-          chmod +x "$APP_PATH/Contents/Resources/v2ray-core/v2ray" || true
+          chmod +x "$APP_PATH/Contents/Resources/bin/xray" || true
           echo "app_path=$APP_PATH" >> $GITHUB_OUTPUT
 
       - name: Package zip (x86_64)
