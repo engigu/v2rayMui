@@ -244,17 +244,18 @@ jobs:
         run: |
           ls -R dist
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ github.event.inputs.tag_name || github.ref_name }}
-          draft: false
-          prerelease: ${{ github.event.inputs.prerelease || false }}
-          files: |
-            dist/**/v2rayMui-macos-*.zip
-            dist/**/v2rayMui-macos-*.dmg
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Resolve tag name (release)
+        run: |
+          set -euo pipefail
+          if [ -n "${{ github.event.inputs.tag_name }}" ]; then
+            echo "TAG_NAME=${{ github.event.inputs.tag_name }}" >> $GITHUB_ENV
+          elif [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+          else
+            echo "No tag found. Provide inputs.tag_name or trigger on a tag." >&2
+            exit 1
+          fi
+          echo "IS_PRERELEASE=${{ github.event.inputs.prerelease || 'false' }}" >> $GITHUB_ENV
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
@@ -263,8 +264,8 @@ jobs:
           draft: false
           prerelease: ${{ env.IS_PRERELEASE }}
           files: |
-            v2rayMui-macos-${{ env.TAG_NAME }}.zip
-            v2rayMui-macos-${{ env.TAG_NAME }}.dmg
+            dist/**/v2rayMui-macos-*.zip
+            dist/**/v2rayMui-macos-*.dmg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

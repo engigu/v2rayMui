@@ -57,6 +57,24 @@ final class GoServerManager {
         }
     }
 
+    // MARK: - Quarantine Handling
+    @discardableResult
+    private func removeQuarantine(at url: URL) -> Bool {
+        let task = Process()
+        task.executableURL = URL(fileURLWithPath: "/usr/bin/xattr")
+        task.arguments = ["-dr", "com.apple.quarantine", url.path]
+        do {
+            try task.run()
+            task.waitUntilExit()
+            let ok = (task.terminationStatus == 0)
+            debugLog("dequarantine \(url.path) -> status=\(task.terminationStatus)")
+            return ok
+        } catch {
+            debugLog("dequarantine failed for \(url.path): \(error.localizedDescription)")
+            return false
+        }
+    }
+
     /// 调用 Go 服务退出接口，给予短暂时间优雅退出（默认 0.3s）
     func requestGoServerExit(wait seconds: TimeInterval = 0.3) {
         guard let url = URL(string: "http://\(AppConfig.serverAddress):\(AppConfig.serverPort)/api/v1/exit") else { return }
@@ -68,6 +86,35 @@ final class GoServerManager {
         if seconds > 0 {
             Thread.sleep(forTimeInterval: seconds)
         }
+    }
+
+    private func waitForServerReady(timeoutSec: TimeInterval = 3.0) {
+        guard let url = URL(string: "http://\(AppConfig.serverAddress):\(AppConfig.serverPort)/api/v1/status") else { return }
+        let deadline = Date().addingTimeInterval(timeoutSec)
+        let session = URLSession(configuration: .ephemeral)
+        var attempt = 0
+        while Date() < deadline {
+            attempt += 1
+            let sem = DispatchSemaphore(value: 1)
+            sem.wait()
+            var ok = false
+            let task = session.dataTask(with: url) { _, resp, err in
+                defer { sem.signal() }
+                if let http = resp as? HTTPURLResponse {
+                    self.debugLog("health attempt #\(attempt) -> status=\(http.statusCode)")
+                    ok = (200...299).contains(http.statusCode)
+                } else if let err = err {
+                    self.debugLog("health attempt #\(attempt) error=\(err.localizedDescription)")
+                } else {
+                    self.debugLog("health attempt #\(attempt) no response")
+                }
+            }
+            task.resume()
+            _ = sem.wait(timeout: .now() + 0.7)
+            if ok { self.debugLog("health OK"); return }
+            Thread.sleep(forTimeInterval: 0.2)
+        }
+        self.debugLog("health timeout after \(attempt) attempts")
     }
 
     func startServerIfNeeded() {
@@ -91,9 +138,10 @@ final class GoServerManager {
             return
         }
 
-        // Ensure executable bit
+        // Ensure executable bit & remove quarantine
         _ = try? FileManager.default.setAttributes([.posixPermissions: NSNumber(value: Int16(0o755))], ofItemAtPath: execURL.path)
         debugLog("Using execURL=\(execURL.path)")
+        removeQuarantine(at: execURL)
 
         do {
             // 在启动新进程前先尝试调用退出接口，清理遗留 Go 进程
@@ -103,7 +151,15 @@ final class GoServerManager {
             debugLog("dataPath=\(dataPath.path)")
             debugLog("binPath=\(binPath.path)")
             debugLog("binPath items=\(listItems(at: binPath))")
-            let xrayPath = binPath.appendingPathComponent("xray").path
+
+            // 确保 xray 与 bin 目录去隔离并赋权
+            removeQuarantine(at: binPath)
+            let xrayURL = binPath.appendingPathComponent("xray")
+            if FileManager.default.fileExists(atPath: xrayURL.path) {
+                _ = try? FileManager.default.setAttributes([.posixPermissions: NSNumber(value: Int16(0o755))], ofItemAtPath: xrayURL.path)
+                removeQuarantine(at: xrayURL)
+            }
+            let xrayPath = xrayURL.path
             debugLog("xrayExists=\(FileManager.default.fileExists(atPath: xrayPath)) at \(xrayPath)")
 
             let p = Process()
@@ -123,24 +179,34 @@ final class GoServerManager {
 
             outPipe.fileHandleForReading.readabilityHandler = { handle in
                 if let str = String(data: handle.availableData, encoding: .utf8), !str.isEmpty {
-                    NSLog("[GoServer] %@", str.trimmingCharacters(in: .whitespacesAndNewlines))
+                    let line = str.trimmingCharacters(in: .whitespacesAndNewlines)
+                    NSLog("[GoServer] %@", line)
+                    self.debugLog("stdout: \(line)")
                 }
             }
             errPipe.fileHandleForReading.readabilityHandler = { handle in
                 if let str = String(data: handle.availableData, encoding: .utf8), !str.isEmpty {
-                    NSLog("[GoServer][ERR] %@", str.trimmingCharacters(in: .whitespacesAndNewlines))
+                    let line = str.trimmingCharacters(in: .whitespacesAndNewlines)
+                    NSLog("[GoServer][ERR] %@", line)
+                    self.debugLog("stderr: \(line)")
                 }
             }
 
             try p.run()
+            debugLog("spawned pid=\(p.processIdentifier)")
             p.terminationHandler = { proc in
                 NSLog("[GoServerManager] go server exited with code %d", proc.terminationStatus)
+                self.debugLog("go server exited code=\(proc.terminationStatus)")
             }
 
             process = p
             NSLog("[GoServerManager] v2rayMuiGoServer started at port %d (dataPath=%@, binPath=%@)", AppConfig.serverPort, dataPath.path, binPath.path)
+            debugLog("started OK, begin health checks")
+            // 健康检查，确认 HTTP 监听已就绪
+            waitForServerReady(timeoutSec: 4.0)
         } catch {
             NSLog("[GoServerManager] Failed to start server: %@", error.localizedDescription)
+            debugLog("spawn error: \(error.localizedDescription)")
             if let res = Bundle.main.resourceURL {
                 debugLog("Bundle.resourceURL=\(res.path)")
                 debugLog("Resources items=\(listItems(at: res))")
@@ -156,6 +222,7 @@ final class GoServerManager {
             p.terminate()
             p.waitUntilExit()
             NSLog("[GoServerManager] v2rayMuiGoServer terminated")
+            debugLog("terminated pid=\(p.processIdentifier)")
         }
         process = nil
     }
