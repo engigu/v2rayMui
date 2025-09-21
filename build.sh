@@ -16,7 +16,13 @@ echo $(pwd)
 cp server/v2rayMuiGoServer ./v2rayMui/Resources/bin/
 rm -rf server/v2rayMuiGoServer
 
+echo "========================"
+echo "ls:"
 echo $(ls v2rayMui/Resources/bin/)
+
+xattr -dr com.apple.quarantine v2rayMui/Resources/bin || true
+
+
 # # 然后构建v2rayMui
 # xcodebuild -project v2rayMui.xcodeproj -scheme v2rayMui -configuration Release
 # cd ..

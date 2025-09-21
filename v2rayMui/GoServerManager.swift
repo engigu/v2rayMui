@@ -5,6 +5,17 @@ import Darwin
 final class GoServerManager {
     private var process: Process?
 
+    // MARK: - Diagnostics
+    private func debugLog(_ message: String) {
+        NSLog("[GoServerManager][Diag] %@", message)
+    }
+
+    private func listItems(at url: URL) -> [String] {
+        let fm = FileManager.default
+        guard let items = try? fm.contentsOfDirectory(atPath: url.path) else { return [] }
+        return items
+    }
+
     /// 调用 Go 服务退出接口，给予短暂时间优雅退出（默认 0.3s）
     func requestGoServerExit(wait seconds: TimeInterval = 0.3) {
         guard let url = URL(string: "http://\(AppConfig.serverAddress):\(AppConfig.serverPort)/api/v1/exit") else { return }
@@ -24,17 +35,35 @@ final class GoServerManager {
 
         guard let execURL = resolveServerExecutableURL() else {
             NSLog("[GoServerManager] Failed to locate v2rayMuiGoServer in bundle resources")
+            if let res = Bundle.main.resourceURL {
+                debugLog("Bundle.resourceURL=\(res.path)")
+                debugLog("Bundle.resourceURL items=\(listItems(at: res))")
+                let bin = res.appendingPathComponent("bin", isDirectory: true)
+                debugLog("Resources/bin items=\(listItems(at: bin))")
+            }
+            if let res2 = Bundle.main.url(forResource: "Resources", withExtension: nil) {
+                debugLog("Bundle.Resources ref=\(res2.path)")
+                debugLog("Bundle.Resources items=\(listItems(at: res2))")
+                let bin2 = res2.appendingPathComponent("bin", isDirectory: true)
+                debugLog("Bundle.Resources/bin items=\(listItems(at: bin2))")
+            }
             return
         }
 
         // Ensure executable bit
         _ = try? FileManager.default.setAttributes([.posixPermissions: NSNumber(value: Int16(0o755))], ofItemAtPath: execURL.path)
+        debugLog("Using execURL=\(execURL.path)")
 
         do {
             // 在启动新进程前先尝试调用退出接口，清理遗留 Go 进程
             requestGoServerExit(wait: 0.3)
 
             let (dataPath, binPath) = try computeRuntimePaths()
+            debugLog("dataPath=\(dataPath.path)")
+            debugLog("binPath=\(binPath.path)")
+            debugLog("binPath items=\(listItems(at: binPath))")
+            let xrayPath = binPath.appendingPathComponent("xray").path
+            debugLog("xrayExists=\(FileManager.default.fileExists(atPath: xrayPath)) at \(xrayPath)")
 
             let p = Process()
             p.executableURL = execURL
@@ -43,7 +72,7 @@ final class GoServerManager {
                 "-binpath", binPath.path,
                 "-port", String(AppConfig.serverPort)
             ]
-// 
+            debugLog("launch args=\(p.arguments ?? [])")
 
             // Capture output for debugging
             let outPipe = Pipe()
@@ -63,11 +92,20 @@ final class GoServerManager {
             }
 
             try p.run()
+            p.terminationHandler = { proc in
+                NSLog("[GoServerManager] go server exited with code %d", proc.terminationStatus)
+            }
 
             process = p
             NSLog("[GoServerManager] v2rayMuiGoServer started at port %d (dataPath=%@, binPath=%@)", AppConfig.serverPort, dataPath.path, binPath.path)
         } catch {
             NSLog("[GoServerManager] Failed to start server: %@", error.localizedDescription)
+            if let res = Bundle.main.resourceURL {
+                debugLog("Bundle.resourceURL=\(res.path)")
+                debugLog("Resources items=\(listItems(at: res))")
+                let bin = res.appendingPathComponent("bin", isDirectory: true)
+                debugLog("Resources/bin items=\(listItems(at: bin))")
+            }
         }
     }
 
@@ -78,26 +116,28 @@ final class GoServerManager {
             p.waitUntilExit()
             NSLog("[GoServerManager] v2rayMuiGoServer terminated")
         }
-        // Also clean stale pid file if any
-//        do {
-//            let (dataPath, _) = try computeRuntimePaths()
-////            removePidFile(in: dataPath)
-//        } catch { /* ignore */ }
         process = nil
     }
 
     // MARK: - Helpers
 
     private func resolveServerExecutableURL() -> URL? {
-        // Prefer nested "Resources" folder reference if present
+        let fm = FileManager.default
+        // Search order:
+        // 1) Bundle/Resources/bin/v2rayMuiGoServer (when embedded under bin)
+        // 2) Bundle/Resources/v2rayMuiGoServer (when placed at resources root via nested folder)
+        // 3) Bundle resource root /v2rayMuiGoServer
         if let resRoot = Bundle.main.url(forResource: "Resources", withExtension: nil) {
+            let binExec = resRoot.appendingPathComponent("bin").appendingPathComponent("v2rayMuiGoServer")
+            if fm.fileExists(atPath: binExec.path) { return binExec }
             let nested = resRoot.appendingPathComponent("v2rayMuiGoServer")
-            if FileManager.default.fileExists(atPath: nested.path) { return nested }
+            if fm.fileExists(atPath: nested.path) { return nested }
         }
-        // Fallback to resources root
         if let root = Bundle.main.resourceURL {
+            let binExec = root.appendingPathComponent("bin").appendingPathComponent("v2rayMuiGoServer")
+            if fm.fileExists(atPath: binExec.path) { return binExec }
             let direct = root.appendingPathComponent("v2rayMuiGoServer")
-            if FileManager.default.fileExists(atPath: direct.path) { return direct }
+            if fm.fileExists(atPath: direct.path) { return direct }
         }
         return nil
     }
@@ -111,11 +151,19 @@ final class GoServerManager {
             try fm.createDirectory(at: dataPath, withIntermediateDirectories: true)
         }
 
-        // binPath = bundle's resources directory (prefer nested Resources folder)
-        if let nested = Bundle.main.url(forResource: "Resources", withExtension: nil) {
-            return (dataPath, nested)
+        // binPath = directory that contains xray; prefer Resources/bin, fallback to resources root
+        if let resRoot = Bundle.main.url(forResource: "Resources", withExtension: nil) {
+            let binDir = resRoot.appendingPathComponent("bin", isDirectory: true)
+            if fm.fileExists(atPath: binDir.path, isDirectory: nil) {
+                return (dataPath, binDir)
+            }
+            return (dataPath, resRoot)
         }
         if let root = Bundle.main.resourceURL {
+            let binDir = root.appendingPathComponent("bin", isDirectory: true)
+            if fm.fileExists(atPath: binDir.path, isDirectory: nil) {
+                return (dataPath, binDir)
+            }
             return (dataPath, root)
         }
         throw NSError(domain: "GoServerManager", code: 1, userInfo: [NSLocalizedDescriptionKey: "Bundle resources not found"])
