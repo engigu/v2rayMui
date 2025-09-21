@@ -724,23 +724,43 @@ func (s *Server) generateV2RayConfig(server *types.ServerConfig) *types.V2RayCon
 		},
 	}
 
-	// 根据简单规则生成路由
-	rules := []types.Rule{}
-	if settings.DomainStrategy != "" || len(settings.ProxyRules)+len(settings.DirectRules)+len(settings.BlockRules) > 0 {
-		config.Routing = &types.RoutingConfig{DomainStrategy: settings.DomainStrategy}
-		// helper
-		toDomains := func(items []string) []string { return items }
-		if len(settings.ProxyRules) > 0 {
-			rules = append(rules, types.Rule{Type: "field", Domain: toDomains(settings.ProxyRules), OutboundTag: "proxy"})
-		}
-		if len(settings.DirectRules) > 0 {
-			rules = append(rules, types.Rule{Type: "field", Domain: toDomains(settings.DirectRules), OutboundTag: "direct"})
-		}
-		if len(settings.BlockRules) > 0 {
-			rules = append(rules, types.Rule{Type: "field", Domain: toDomains(settings.BlockRules), OutboundTag: "block"})
-		}
-		config.Routing.Rules = rules
-	}
+    // 路由规则
+    rules := []types.Rule{}
+    // 基础：根据界面自定义规则
+    if settings.DomainStrategy != "" || len(settings.ProxyRules)+len(settings.DirectRules)+len(settings.BlockRules) > 0 || settings.RoutingMode != "" {
+        // 如果没有配置 DomainStrategy，且开启了绕过大陆，给一个更合理的默认
+        domainStrategy := settings.DomainStrategy
+        if domainStrategy == "" && settings.RoutingMode == "bypass" {
+            domainStrategy = "IPIfNonMatch"
+        }
+        config.Routing = &types.RoutingConfig{DomainStrategy: domainStrategy}
+
+        // 界面自定义规则优先加入（更靠前）
+        toDomains := func(items []string) []string { return items }
+        if len(settings.DirectRules) > 0 {
+            rules = append(rules, types.Rule{Type: "field", Domain: toDomains(settings.DirectRules), OutboundTag: "direct"})
+        }
+        if len(settings.BlockRules) > 0 {
+            rules = append(rules, types.Rule{Type: "field", Domain: toDomains(settings.BlockRules), OutboundTag: "block"})
+        }
+        if len(settings.ProxyRules) > 0 {
+            rules = append(rules, types.Rule{Type: "field", Domain: toDomains(settings.ProxyRules), OutboundTag: "proxy"})
+        }
+
+        // 模式：绕过大陆（国内直连，国外代理）
+        if settings.RoutingMode == "bypass" {
+            // 国内域名直连
+            rules = append(rules, types.Rule{Type: "field", Domain: []string{"geosite:cn", "domain:localhost"}, OutboundTag: "direct"})
+            // 国内与私网 IP 直连
+            rules = append(rules, types.Rule{Type: "field", IP: []string{"geoip:cn", "geoip:private"}, OutboundTag: "direct"})
+            // 其余域名走代理
+            rules = append(rules, types.Rule{Type: "field", Domain: []string{"geosite:geolocation-!cn"}, OutboundTag: "proxy"})
+            // 其余 IP 也走代理（兜底）
+            rules = append(rules, types.Rule{Type: "field", OutboundTag: "proxy"})
+        }
+
+        config.Routing.Rules = rules
+    }
 
 	return config
 }
