@@ -8,12 +8,53 @@ final class GoServerManager {
     // MARK: - Diagnostics
     private func debugLog(_ message: String) {
         NSLog("[GoServerManager][Diag] %@", message)
+        // 同步写入本地诊断日志文件，便于在 Console 以外查看
+        writeDiagLogToFile(message)
     }
 
     private func listItems(at url: URL) -> [String] {
         let fm = FileManager.default
         guard let items = try? fm.contentsOfDirectory(atPath: url.path) else { return [] }
         return items
+    }
+
+    private func diagLogFileURL() -> URL? {
+        let fm = FileManager.default
+        do {
+            let appSupport = try fm.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            let bundleId = Bundle.main.bundleIdentifier ?? "v2rayMui"
+            let dir = appSupport.appendingPathComponent(bundleId, isDirectory: true)
+            if !fm.fileExists(atPath: dir.path) {
+                try fm.createDirectory(at: dir, withIntermediateDirectories: true)
+            }
+            return dir.appendingPathComponent("diag.log", isDirectory: false)
+        } catch {
+            return nil
+        }
+    }
+
+    private let loggerQueue = DispatchQueue(label: "GoServerManager.Logger")
+
+    private func writeDiagLogToFile(_ message: String) {
+        guard let fileURL = diagLogFileURL() else { return }
+        let line = "[" + ISO8601DateFormatter().string(from: Date()) + "] " + message + "\n"
+        loggerQueue.async {
+            if FileManager.default.fileExists(atPath: fileURL.path) == false {
+                _ = try? line.data(using: .utf8)?.write(to: fileURL)
+                return
+            }
+            if let handle = try? FileHandle(forWritingTo: fileURL) {
+                defer { try? handle.close() }
+                do {
+                    try handle.seekToEnd()
+                    if let data = line.data(using: .utf8) {
+                        try handle.write(contentsOf: data)
+                    }
+                } catch {
+                    // ignore file write error
+                }
+            }
+        }
     }
 
     /// 调用 Go 服务退出接口，给予短暂时间优雅退出（默认 0.3s）
