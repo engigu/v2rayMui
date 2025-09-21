@@ -29,17 +29,22 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // 隐藏 Dock 图标，仅显示状态栏图标
         NSApp.setActivationPolicy(.accessory)
         goManager.startServerIfNeeded()
+        // 根据数据库设置系统代理
+        SystemProxyManager.setSystemProxyFromDB()
     }
 
     func applicationWillTerminate(_ notification: Notification) {
         goManager.requestGoServerExit(wait: 0.6)
         goManager.stopServerIfRunning()
+        // 退出时清理系统代理
+        SystemProxyManager.clearSystemProxy()
         print("applicationWillTerminate")
     }
 
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         goManager.requestGoServerExit(wait: 0.6)
         goManager.stopServerIfRunning()
+        SystemProxyManager.clearSystemProxy()
         print("applicationShouldTerminate")
         return .terminateNow
     }

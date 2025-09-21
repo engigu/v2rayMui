@@ -325,10 +325,7 @@ func (s *Server) connect(c *gin.Context) {
 	}
 
 	// 设置系统代理
-	if err := s.managers.Proxy.SetSystemProxy(); err != nil {
-		s.managers.Log.AddLog("error", "proxy", fmt.Sprintf("Failed to set system proxy: %v", err))
-		// 不返回错误，因为 V2Ray 已经启动
-	}
+	// 已迁移到 Swift 侧设置系统代理，此处不再调用
 
 	s.managers.Log.AddLog("info", "system", "Connected to server")
 	c.JSON(200, gin.H{"message": "connected"})
@@ -343,10 +340,7 @@ func (s *Server) disconnect(c *gin.Context) {
 	}
 
 	// 清除系统代理
-	if err := s.managers.Proxy.ClearSystemProxy(); err != nil {
-		s.managers.Log.AddLog("error", "proxy", fmt.Sprintf("Failed to clear system proxy: %v", err))
-		// 不返回错误
-	}
+	// 已迁移到 Swift 侧清除系统代理，此处不再调用
 
 	s.managers.Log.AddLog("info", "system", "Disconnected from server")
 	c.JSON(200, gin.H{"message": "disconnected"})

@@ -7,16 +7,91 @@ import (
 	"strings"
 
 	"v2ray-mui/internal/config"
+    applog "v2ray-mui/internal/manager/log"
 )
 
 type Manager struct {
 	config *config.Config
+    logger *applog.Manager
 }
 
-func New(cfg *config.Config) *Manager {
-	return &Manager{
-		config: cfg,
-	}
+func New(cfg *config.Config, logger *applog.Manager) *Manager {
+    return &Manager{
+        config: cfg,
+        logger: logger,
+    }
+}
+
+// runLogged 运行命令并打印命令与输出，便于排查
+func (m *Manager) runLogged(cmd *exec.Cmd) error {
+    // 注意：cmd.String() 包含可执行文件与参数
+    fmt.Printf("[proxy] $ %s\n", cmd.String())
+    if m != nil && m.logger != nil {
+        m.logger.AddLog("info", "proxy", "$ "+cmd.String())
+    }
+    out, err := cmd.CombinedOutput()
+    if len(out) > 0 {
+        fmt.Printf("[proxy] -> %s\n", strings.TrimSpace(string(out)))
+        if m != nil && m.logger != nil {
+            m.logger.AddLog("info", "proxy", strings.TrimSpace(string(out)))
+        }
+    }
+    if err != nil {
+        // 在 macOS 上尝试使用 osascript 提权执行（弹出管理员密码框），并在密码错误时重试最多 2 次
+        if runtime.GOOS == "darwin" {
+            // 严格逐参数 shell 转义，避免服务名包含空格/特殊符号导致脚本报错而不弹窗
+            shQuote := func(s string) string {
+                // 单引号安全包裹：' -> '\''
+                return "'" + strings.ReplaceAll(s, "'", "'\\''") + "'"
+            }
+            args := []string{}
+            if cmd.Path != "" {
+                args = append(args, cmd.Path)
+            } else if len(cmd.Args) > 0 {
+                args = append(args, cmd.Args[0])
+            }
+            if len(cmd.Args) > 1 {
+                args = append(args, cmd.Args[1:]...)
+            }
+            for i := range args { args[i] = shQuote(args[i]) }
+            joined := strings.Join(args, " ")
+
+            for attempt := 1; attempt <= 3; attempt++ {
+                // 注意：AppleScript 字符串用双引号，内部无需再对空格做特殊处理
+                script := fmt.Sprintf("do shell script \"%s\" with administrator privileges", joined)
+                osa := exec.Command("/usr/bin/osascript", "-e", script)
+                if m != nil && m.logger != nil {
+                    m.logger.AddLog("info", "proxy", fmt.Sprintf("$ osascript (attempt %d)", attempt))
+                }
+                out2, err2 := osa.CombinedOutput()
+                if len(out2) > 0 && m != nil && m.logger != nil {
+                    m.logger.AddLog("info", "proxy", strings.TrimSpace(string(out2)))
+                }
+                if err2 == nil {
+                    return nil
+                }
+                // -60005: 管理员用户名或密码不正确；-128: 用户取消
+                serr := err2.Error()
+                if strings.Contains(serr, "-128") {
+                    if m != nil && m.logger != nil { m.logger.AddLog("error", "proxy", "用户取消了管理员授权") }
+                    return fmt.Errorf("administrator authorization cancelled")
+                }
+                if strings.Contains(serr, "-60005") {
+                    if m != nil && m.logger != nil { m.logger.AddLog("error", "proxy", "管理员用户名或密码不正确，请重试") }
+                    // 下一轮重试
+                    continue
+                }
+                // 其他错误直接返回
+                if m != nil && m.logger != nil { m.logger.AddLog("error", "proxy", serr) }
+                return fmt.Errorf("command failed (osascript): %w", err2)
+            }
+        }
+        if m != nil && m.logger != nil {
+            m.logger.AddLog("error", "proxy", err.Error())
+        }
+        return fmt.Errorf("command failed: %w", err)
+    }
+    return nil
 }
 
 func (m *Manager) SetSystemProxy() error {
@@ -75,104 +150,78 @@ func (m *Manager) clearWindowsProxy() error {
 }
 
 func (m *Manager) setMacOSProxy() error {
-	// 获取网络服务列表
-	return nil
-	cmd := exec.Command("networksetup", "-listallnetworkservices")
-	output, err := cmd.Output()
-	if err != nil {
-		return fmt.Errorf("failed to list network services: %w", err)
-	}
+    // 获取网络服务列表
+    cmd := exec.Command("/usr/sbin/networksetup", "-listallnetworkservices")
+    output, err := cmd.Output()
+    if err != nil {
+        return fmt.Errorf("failed to list network services: %w", err)
+    }
 
-	services := strings.Split(string(output), "\n")
-	var activeService string
+    services := strings.Split(string(output), "\n")
+    success := 0
+    var lastErr error
 
-	// 找到活跃的网络服务（通常是 Wi-Fi 或以太网）
-	for _, service := range services {
-		service = strings.TrimSpace(service)
-		if service != "" && !strings.Contains(service, "*") {
-			activeService = service
-			break
-		}
-	}
+    for _, service := range services {
+        s := strings.TrimSpace(service)
+        if s == "" || strings.HasPrefix(s, "*") || strings.HasPrefix(strings.ToLower(s), "an asterisk") {
+            continue
+        }
+		
+        // 设置 HTTP/HTTPS 代理
+        if err := m.runLogged(exec.Command("/usr/sbin/networksetup", "-setwebproxy", s, m.config.Proxy.HTTP.Host, fmt.Sprintf("%d", m.config.Proxy.HTTP.Port))); err != nil {
+            lastErr = fmt.Errorf("%s: set HTTP proxy: %w", s, err)
+            continue
+        }
+        if err := m.runLogged(exec.Command("/usr/sbin/networksetup", "-setsecurewebproxy", s, m.config.Proxy.HTTP.Host, fmt.Sprintf("%d", m.config.Proxy.HTTP.Port))); err != nil {
+            lastErr = fmt.Errorf("%s: set HTTPS proxy: %w", s, err)
+            continue
+        }
+        // 设置 SOCKS 代理
+        if err := m.runLogged(exec.Command("/usr/sbin/networksetup", "-setsocksfirewallproxy", s, m.config.Proxy.SOCKS.Host, fmt.Sprintf("%d", m.config.Proxy.SOCKS.Port))); err != nil {
+            lastErr = fmt.Errorf("%s: set SOCKS proxy: %w", s, err)
+            continue
+        }
+        // 启用三类代理
+        _ = m.runLogged(exec.Command("/usr/sbin/networksetup", "-setwebproxystate", s, "on"))
+        _ = m.runLogged(exec.Command("/usr/sbin/networksetup", "-setsecurewebproxystate", s, "on"))
+        _ = m.runLogged(exec.Command("/usr/sbin/networksetup", "-setsocksfirewallproxystate", s, "on"))
+        success++
+    }
 
-	if activeService == "" {
-		return fmt.Errorf("no active network service found")
-	}
-	activeService = "Wi-Fi"
-	fmt.Printf("xxxxxxxx%s", activeService, activeService, m.config.Proxy.HTTP.Host, fmt.Sprintf("%d", m.config.Proxy.HTTP.Port))
-
-	// 设置 HTTP 代理
-	// httpProxy := fmt.Sprintf("%s:%d", m.config.Proxy.HTTP.Host, m.config.Proxy.HTTP.Port)
-	cmd = exec.Command("networksetup", "-setwebproxy", activeService, m.config.Proxy.HTTP.Host, fmt.Sprintf("%d", m.config.Proxy.HTTP.Port))
-	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("failed to set HTTP proxy: %w", err)
-	}
-
-	cmd = exec.Command("networksetup", "-setsecurewebproxy", activeService, m.config.Proxy.HTTP.Host, fmt.Sprintf("%d", m.config.Proxy.HTTP.Port))
-	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("failed to set HTTPS proxy: %w", err)
-	}
-
-	// 设置 SOCKS 代理
-	cmd = exec.Command("networksetup", "-setsocksfirewallproxy", activeService, m.config.Proxy.SOCKS.Host, fmt.Sprintf("%d", m.config.Proxy.SOCKS.Port))
-	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("failed to set SOCKS proxy: %w", err)
-	}
-
-	// 启用代理
-	cmd = exec.Command("networksetup", "-setwebproxystate", activeService, "on")
-	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("failed to enable HTTP proxy: %w", err)
-	}
-
-	cmd = exec.Command("networksetup", "-setsecurewebproxystate", activeService, "on")
-	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("failed to enable HTTPS proxy: %w", err)
-	}
-
-	cmd = exec.Command("networksetup", "-setsocksfirewallproxystate", activeService, "on")
-	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("failed to enable SOCKS proxy: %w", err)
-	}
-
-	return nil
+    if success == 0 && lastErr != nil {
+        return lastErr
+    }
+    return nil
 }
 
 func (m *Manager) clearMacOSProxy() error {
-	// 获取网络服务列表
-	cmd := exec.Command("networksetup", "-listallnetworkservices")
-	output, err := cmd.Output()
-	if err != nil {
-		return fmt.Errorf("failed to list network services: %w", err)
-	}
+    // 获取网络服务列表
+    cmd := exec.Command("/usr/sbin/networksetup", "-listallnetworkservices")
+    output, err := cmd.Output()
+    if err != nil {
+        return fmt.Errorf("failed to list network services: %w", err)
+    }
 
-	services := strings.Split(string(output), "\n")
-	var activeService string
+    services := strings.Split(string(output), "\n")
+    success := 0
+    var lastErr error
 
-	// 找到活跃的网络服务
-	for _, service := range services {
-		service = strings.TrimSpace(service)
-		if service != "" && !strings.HasPrefix(service, "*") {
-			activeService = service
-			break
-		}
-	}
+    for _, service := range services {
+        s := strings.TrimSpace(service)
+        if s == "" || strings.HasPrefix(s, "*") || strings.HasPrefix(strings.ToLower(s), "an asterisk") {
+            continue
+        }
+        // 关闭三类代理，若部分失败继续下一项
+        if err := m.runLogged(exec.Command("/usr/sbin/networksetup", "-setwebproxystate", s, "off")); err != nil { lastErr = err }
+        if err := m.runLogged(exec.Command("/usr/sbin/networksetup", "-setsecurewebproxystate", s, "off")); err != nil { lastErr = err }
+        if err := m.runLogged(exec.Command("/usr/sbin/networksetup", "-setsocksfirewallproxystate", s, "off")); err != nil { lastErr = err }
+        success++
+    }
 
-	if activeService == "" {
-		return fmt.Errorf("no active network service found")
-	}
-
-	// 关闭代理
-	cmd = exec.Command("networksetup", "-setwebproxystate", activeService, "off")
-	cmd.Run()
-
-	cmd = exec.Command("networksetup", "-setsecurewebproxystate", activeService, "off")
-	cmd.Run()
-
-	cmd = exec.Command("networksetup", "-setsocksfirewallproxystate", activeService, "off")
-	cmd.Run()
-
-	return nil
+    if success == 0 && lastErr != nil {
+        return lastErr
+    }
+    return nil
 }
 
 func (m *Manager) setLinuxProxy() error {

@@ -30,12 +30,12 @@ final class StatusViewModel: ObservableObject {
         do {
             let url = baseURL.appending(path: "status")
             let (data, response) = try await URLSession.shared.data(from: url)
-            if let http = response as? HTTPURLResponse {
-                print("[Status] GET \(url.absoluteString) -> status=\(http.statusCode)")
-            }
-            if let body = String(data: data, encoding: .utf8) {
-                print("[Status] body: \(body)")
-            }
+//            if let http = response as? HTTPURLResponse {
+//                // print("[Status] GET \(url.absoluteString) -> status=\(http.statusCode)")
+//            }
+//            if let body = String(data: data, encoding: .utf8) {
+//                // print("[Status] body: \(body)")
+//            }
             if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] {
                 self.goServerRunning = true
                 self.connected = (json["connected"] as? Bool) ?? false
@@ -47,7 +47,7 @@ final class StatusViewModel: ObservableObject {
                 }
             }
         } catch {
-            print("[Status] fetch error: \(error)")
+            // print("[Status] fetch error: \(error)")
             self.goServerRunning = false
             self.statusText = "unreachable"
         }
@@ -61,15 +61,15 @@ final class StatusViewModel: ObservableObject {
         request.httpMethod = "POST"
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
-            if let http = response as? HTTPURLResponse {
-                print("[Status] POST \(request.url?.absoluteString ?? "") -> status=\(http.statusCode)")
-            }
-            if let body = String(data: data, encoding: .utf8) {
-                print("[Status] body: \(body)")
-            }
+//            if let http = response as? HTTPURLResponse {
+//                // print("[Status] POST \(request.url?.absoluteString ?? "") -> status=\(http.statusCode)")
+//            }
+//            if let body = String(data: data, encoding: .utf8) {
+//                // print("[Status] body: \(body)")
+//            }
             await fetchStatus()
         } catch {
-            print("[Status] toggle error: \(error)")
+            // print("[Status] toggle error: \(error)")
             // ignore, UI will reflect via status fetch
         }
     }
