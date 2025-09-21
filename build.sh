@@ -19,8 +19,9 @@ rm -rf server/v2rayMuiGoServer
 echo "========================"
 echo "ls:"
 echo $(ls v2rayMui/Resources/bin/)
+echo "========================"
 
-xattr -dr com.apple.quarantine v2rayMui/Resources/bin || true
+# xattr -dr com.apple.quarantine v2rayMui/Resources/bin || true
 
 
 # # 然后构建v2rayMui
