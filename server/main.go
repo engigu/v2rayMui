@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+    "path/filepath"
 	"v2ray-mui/internal/api"
 	"v2ray-mui/internal/config"
 	"v2ray-mui/internal/logging"
@@ -39,6 +40,8 @@ func main() {
 		log.Printf("Using data path from flag: %s", cfg.Settings.DataPath)
 	}
 
+  
+
 	// 环境变量 SERVER_PORT 或命令行 -port 优先覆盖 server.port
 	if envPort := os.Getenv("SERVER_PORT"); envPort != "" {
 		if p, err := strconv.Atoi(envPort); err == nil {
@@ -62,6 +65,19 @@ func main() {
 		log.Printf("Using v2ray binary path from flag: %s", cfg.V2Ray.BinaryPath)
 	}
 
+	  // 始终将 v2ray 的配置与日志放在 dataPath 下，避免相对路径不一致
+	  cfg.V2Ray.ConfigPath = filepath.Join(cfg.Settings.DataPath, "xray.json")
+	  cfg.V2Ray.LogPath = filepath.Join(cfg.Settings.DataPath, "v2ray.log")
+	  // 确保目录存在
+	  if err := os.MkdirAll(filepath.Dir(cfg.V2Ray.ConfigPath), 0755); err != nil {
+		  log.Fatalf("Failed to create v2ray config dir: %v", err)
+	  }
+	  if err := os.MkdirAll(filepath.Dir(cfg.V2Ray.LogPath), 0755); err != nil {
+		  log.Fatalf("Failed to create v2ray log dir: %v", err)
+	  }
+	  log.Printf("V2Ray config path: %s", cfg.V2Ray.ConfigPath)
+	  log.Printf("V2Ray log path: %s", cfg.V2Ray.LogPath)
+	  
 	// 初始化管理器
 	managers := manager.NewManagers(cfg)
 
