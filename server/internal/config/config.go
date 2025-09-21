@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-    "strings"
+	"strings"
 
 	"github.com/spf13/viper"
 )
@@ -20,10 +20,10 @@ type Config struct {
 }
 
 type ServerConfig struct {
-	Address string `mapstructure:"address"`
-	Port    int    `mapstructure:"port"`
-	GinMode string `mapstructure:"gin_mode"`
-    AccessLog bool `mapstructure:"access_log"`
+	Address   string `mapstructure:"address"`
+	Port      int    `mapstructure:"port"`
+	GinMode   string `mapstructure:"gin_mode"`
+	AccessLog bool   `mapstructure:"access_log"`
 }
 
 type V2RayConfig struct {
@@ -62,10 +62,10 @@ func Load() (*Config, error) {
 	viper.SetDefault("server.address", "127.0.0.1")
 	viper.SetDefault("server.port", 58080)
 	viper.SetDefault("server.gin_mode", "release")
-    viper.SetDefault("server.access_log", false)
+	viper.SetDefault("server.access_log", false)
 	//viper.SetDefault("v2ray.binary_path", "")
 	viper.SetDefault("v2ray.config_path", "./config.json")
-	viper.SetDefault("v2ray.log_path", "./logs/v2ray.log")
+	viper.SetDefault("v2ray.log_path", "./xray.log")
 	viper.SetDefault("proxy.http.host", "127.0.0.1")
 	viper.SetDefault("proxy.http.port", 1087)
 	viper.SetDefault("proxy.socks.host", "127.0.0.1")
@@ -106,9 +106,9 @@ func Load() (*Config, error) {
 	}
 
 	// 环境变量覆盖
-    // 允许用环境变量覆盖嵌套字段，例如 SERVER_PORT 覆盖 server.port
-    viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
-    viper.AutomaticEnv()
+	// 允许用环境变量覆盖嵌套字段，例如 SERVER_PORT 覆盖 server.port
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
+	viper.AutomaticEnv()
 
 	var config Config
 	if err := viper.Unmarshal(&config); err != nil {
