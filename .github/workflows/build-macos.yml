@@ -15,6 +15,23 @@ jobs:
           xcodebuild -version
           sw_vers
 
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: server/go.mod
+          cache: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: server/web/package-lock.json
+
+      - name: Install web deps
+        working-directory: server/web
+        run: npm ci
+
       - name: Download Xray core into Resources
         run: |
           set -euo pipefail

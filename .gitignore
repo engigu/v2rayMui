@@ -62,6 +62,6 @@ fastlane/screenshots/**/*.png
 fastlane/test_output
 
 
-v2rayMui/Resources/v2ray-core
+v2rayMui/Resources/
 
 server/dist/
