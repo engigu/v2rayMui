@@ -755,8 +755,8 @@ func (s *Server) generateV2RayConfig(server *types.ServerConfig) *types.V2RayCon
             rules = append(rules, types.Rule{Type: "field", IP: []string{"geoip:cn", "geoip:private"}, OutboundTag: "direct"})
             // 其余域名走代理
             rules = append(rules, types.Rule{Type: "field", Domain: []string{"geosite:geolocation-!cn"}, OutboundTag: "proxy"})
-            // 其余 IP 也走代理（兜底）
-            rules = append(rules, types.Rule{Type: "field", OutboundTag: "proxy"})
+            // 兜底不再添加无条件规则，避免 “this rule has no effective fields” 错误；
+            // 无匹配流量将按 outbounds 顺序走第一个（本配置为 proxy）。
         }
 
         config.Routing.Rules = rules
