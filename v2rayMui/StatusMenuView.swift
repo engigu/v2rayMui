@@ -113,7 +113,7 @@ struct StatusMenuView: View {
     }
 
     private func openConfigPage() {
-        if let url = URL(string: "http://127.0.0.1:\(AppConfig.serverPort)/") {
+        if let url = URL(string: "http://\(AppConfig.serverAddress):\(AppConfig.serverPort)/") {
             NSWorkspace.shared.open(url)
         } else {
             openBinError = "无法构建配置页面地址"

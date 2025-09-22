@@ -25,6 +25,16 @@ struct v2rayMuiApp: App {
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private let goManager = GoServerManager()
+    private var didCleanup = false
+
+    private func performCleanup() {
+        if didCleanup { return }
+        didCleanup = true
+        goManager.requestGoServerExit(wait: 0.3)
+        goManager.stopServerIfRunning()
+        SystemProxyManager.clearSystemProxy()
+        SystemProxyManager.releaseAuthorization()
+    }
     func applicationDidFinishLaunching(_ notification: Notification) {
         // 隐藏 Dock 图标，仅显示状态栏图标
         NSApp.setActivationPolicy(.accessory)
@@ -34,19 +44,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
-        goManager.requestGoServerExit(wait: 0.3)
-        goManager.stopServerIfRunning()
-        // 退出时清理系统代理
-        SystemProxyManager.clearSystemProxy()
-        SystemProxyManager.releaseAuthorization()
+        // 退出时清理（只执行一次）
+        performCleanup()
         print("applicationWillTerminate")
     }
 
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
-        goManager.requestGoServerExit(wait: 0.3)
-        goManager.stopServerIfRunning()
-        SystemProxyManager.clearSystemProxy()
-        SystemProxyManager.releaseAuthorization()
+        // 提前清理（只执行一次）
+        performCleanup()
         print("applicationShouldTerminate")
         return .terminateNow
     }

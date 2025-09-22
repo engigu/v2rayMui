@@ -130,10 +130,10 @@
             </div>
             <div class="pt-2 flex gap-2">
               <Button size="sm" variant="outline" @click="copyEnableProxy" :disabled="loading">
-                复制启用命令
+                终端启用命令
               </Button>
-              <Button size="sm" variant="outline" @click="copyDisableProxy" :disabled="loading">
-                复制关闭命令
+              <Button size="sm" variant="outline" @click="copyDisableProxy" :disabled="loading" class="w-full sm:w-auto">
+                终端关闭命令
               </Button>
             </div>
           </div>
