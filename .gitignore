@@ -63,5 +63,5 @@ fastlane/test_output
 
 
 v2rayMui/Resources/
-
+server/v2rayMuiGoServer
 server/dist/
