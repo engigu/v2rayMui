@@ -34,17 +34,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
-        goManager.requestGoServerExit(wait: 0.6)
+        goManager.requestGoServerExit(wait: 0.3)
         goManager.stopServerIfRunning()
         // 退出时清理系统代理
         SystemProxyManager.clearSystemProxy()
+        SystemProxyManager.releaseAuthorization()
         print("applicationWillTerminate")
     }
 
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
-        goManager.requestGoServerExit(wait: 0.6)
+        goManager.requestGoServerExit(wait: 0.3)
         goManager.stopServerIfRunning()
         SystemProxyManager.clearSystemProxy()
+        SystemProxyManager.releaseAuthorization()
         print("applicationShouldTerminate")
         return .terminateNow
     }

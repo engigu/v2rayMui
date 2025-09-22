@@ -33,6 +33,30 @@ type Server struct {
 	cacheMu   sync.RWMutex
 	fileCache map[string]*cachedFile
 }
+// 后台重启/启动 Xray（根据当前选中服务器与设置生成配置）。
+func (s *Server) restartXrayAsync(reason string) {
+    go func() {
+        s.managers.Log.AddLog("info", "system", fmt.Sprintf("restarting xray: %s", reason))
+        // 停止旧进程（若在运行）
+        _ = s.managers.V2Ray.Stop()
+        // 等待片刻以释放端口
+        time.Sleep(300 * time.Millisecond)
+        // 读取当前选中服务器
+        sel := s.managers.Config.GetSelectedServer()
+        if sel == nil {
+            s.managers.Log.AddLog("warn", "system", "restart skipped: no selected server")
+            return
+        }
+        // 生成并启动
+        cfg := s.generateV2RayConfig(sel)
+        if err := s.managers.V2Ray.Start(cfg); err != nil {
+            s.managers.Log.AddLog("error", "system", fmt.Sprintf("xray start failed after restart: %v", err))
+            return
+        }
+        s.managers.Log.AddLog("info", "system", "xray restarted")
+    }()
+}
+
 
 func NewServer(cfg *config.Config, managers *manager.Managers, distFs embed.FS) *Server {
 	switch cfg.Server.GinMode {
@@ -383,7 +407,12 @@ func (s *Server) updateServer(c *gin.Context) {
 	}
 
 	s.managers.Log.AddLog("info", "config", fmt.Sprintf("Updated server: %s", server.Name))
-	c.JSON(200, server)
+    // 如果更新的是当前选中服务器，触发重启
+    sel := s.managers.Config.GetSelectedServer()
+    if sel != nil && sel.ID == server.ID {
+        s.restartXrayAsync("server-updated")
+    }
+    c.JSON(200, server)
 }
 
 func (s *Server) deleteServer(c *gin.Context) {
@@ -407,7 +436,9 @@ func (s *Server) selectServer(c *gin.Context) {
 	}
 
 	s.managers.Log.AddLog("info", "config", fmt.Sprintf("Selected server: %s", id))
-	c.JSON(200, gin.H{"message": "selected"})
+    // 选中服务器后，立即重启以应用新线路
+    s.restartXrayAsync("server-selected")
+    c.JSON(200, gin.H{"message": "selected"})
 }
 
 func (s *Server) getSelectedServer(c *gin.Context) {
@@ -433,7 +464,9 @@ func (s *Server) updateSettings(c *gin.Context) {
 	}
 
 	s.managers.Log.AddLog("info", "settings", "Settings updated")
-	c.JSON(200, settings)
+    // 立即触发 xray 重启（设置变化影响入站/路由等）
+    s.restartXrayAsync("settings-changed")
+    c.JSON(200, settings)
 }
 
 func (s *Server) getLogs(c *gin.Context) {

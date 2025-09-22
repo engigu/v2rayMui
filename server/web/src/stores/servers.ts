@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { api } from '@/lib/api'
+import { toast } from '@/components/ui/toast'
 import type { ServerConfig } from '@/types'
 
 export const useServersStore = defineStore('servers', () => {
@@ -48,6 +49,7 @@ export const useServersStore = defineStore('servers', () => {
       if (index !== -1) {
         servers.value[index] = response.data
       }
+      toast({ title: '正在重启 Xray', description: '应用服务器更改…' })
     } catch (error) {
       console.error('Failed to update server:', error)
       throw error
@@ -76,6 +78,7 @@ export const useServersStore = defineStore('servers', () => {
     try {
       await api.post(`/servers/${id}/select`)
       selectedServerId.value = id
+      toast({ title: '正在重启 Xray', description: '切换服务器中…' })
     } catch (error) {
       console.error('Failed to select server:', error)
       throw error

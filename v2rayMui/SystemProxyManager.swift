@@ -19,6 +19,28 @@ struct AppSettingsRecord: Decodable {
 }
 
 final class SystemProxyManager {
+    // Keep one AuthorizationRef for the whole app session to avoid repeated prompts
+    private static var authorizationRef: AuthorizationRef? = nil
+
+    private static func getAuthorizationRef() -> AuthorizationRef? {
+        if let existing = authorizationRef { return existing }
+        var auth: AuthorizationRef? = nil
+        let flags: AuthorizationFlags = [.interactionAllowed, .extendRights, .preAuthorize]
+        let status = AuthorizationCreate(nil, nil, flags, &auth)
+        if status != errAuthorizationSuccess {
+            NSLog("[Proxy] AuthorizationCreate failed: \(status)")
+            return nil
+        }
+        authorizationRef = auth
+        return auth
+    }
+
+    static func releaseAuthorization() {
+        if let auth = authorizationRef {
+            AuthorizationFree(auth, [])
+            authorizationRef = nil
+        }
+    }
     private static func scErrorString(_ code: Int32) -> String {
         let ptr = SCErrorString(code)
         return String(cString: ptr)
@@ -81,12 +103,7 @@ final class SystemProxyManager {
     // MARK: - Public API
     // MARK: - New approach: SystemConfiguration (with Authorization)
     private static func withAuthorizedPreferences(_ body: (SCPreferences) -> Bool) -> Bool {
-        var auth: AuthorizationRef? = nil
-        let flags: AuthorizationFlags = [.interactionAllowed, .extendRights, .preAuthorize]
-        let status = AuthorizationCreate(nil, nil, flags, &auth)
-        if status != errAuthorizationSuccess { NSLog("[Proxy] AuthorizationCreate failed: \(status)"); return false }
-        guard let authRef = auth else { return false }
-        defer { AuthorizationFree(authRef, []) }
+        guard let authRef = getAuthorizationRef() else { return false }
         guard let prefs = SCPreferencesCreateWithAuthorization(nil, "v2rayMui" as CFString, nil, authRef) else {
             NSLog("[Proxy] SCPreferencesCreateWithAuthorization failed")
             return false

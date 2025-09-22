@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { api } from '@/lib/api'
+import { toast } from '@/components/ui/toast'
 import type { AppSettings } from '@/types'
 
 export const useSettingsStore = defineStore('settings', () => {
@@ -40,6 +41,7 @@ export const useSettingsStore = defineStore('settings', () => {
     try {
       const response = await api.post('/settings', { ...settings.value, ...newSettings })
       settings.value = response.data
+      toast({ title: '正在重启 Xray', description: '应用配置更改…' })
     } catch (error) {
       console.error('Failed to update settings:', error)
       throw error
@@ -73,10 +75,12 @@ export const useSettingsStore = defineStore('settings', () => {
 
   const updateRoutingMode = async (routingMode: AppSettings['routingMode']) => {
     await updateSettings({ routingMode })
+    toast({ title: '正在重启 Xray', description: '应用路由模式更改…' })
   }
 
   const updateCustomRules = async (customRules: string[]) => {
     await updateSettings({ customRules })
+    toast({ title: '正在重启 Xray', description: '应用路由规则更改…' })
   }
 
   const updateUDPEnabled = async (udpEnabled: boolean) => {
