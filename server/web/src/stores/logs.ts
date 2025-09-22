@@ -19,8 +19,9 @@ export const useLogsStore = defineStore('logs', () => {
     search: ''
   })
 
-  const fetchLogs = async () => {
-    loading.value = true
+  const fetchLogs = async (opts?: { silent?: boolean }) => {
+    const silent = Boolean(opts?.silent)
+    if (!silent) loading.value = true
     try {
       const params = new URLSearchParams()
       if (filters.value.level) params.append('level', filters.value.level)
@@ -33,14 +34,14 @@ export const useLogsStore = defineStore('logs', () => {
     } catch (error) {
       console.error('Failed to fetch logs:', error)
     } finally {
-      loading.value = false
+      if (!silent) loading.value = false
     }
   }
 
   const startPolling = () => {
     stopPolling()
     timer = window.setInterval(() => {
-      fetchLogs()
+      fetchLogs({ silent: true })
     }, 1500)
   }
 

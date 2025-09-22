@@ -3,6 +3,7 @@ import { createPinia } from 'pinia'
 import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import './style.css'
+import { applyTheme, getInitialTheme } from './lib/theme'
 
 // 导入组件
 import Home from './views/Home.vue'
@@ -33,4 +34,6 @@ router.onError((error) => {
 const app = createApp(App)
 app.use(createPinia())
 app.use(router)
+// 初始化主题
+applyTheme(getInitialTheme())
 app.mount('#app')

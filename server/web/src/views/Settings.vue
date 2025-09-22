@@ -7,7 +7,7 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
       <!-- 基本设置 -->
-      <Card class="aurora hover:shadow-lg transition-all">
+      <Card class="aurora glass hover-lift card-glow smooth-in">
         <CardHeader>
           <CardTitle>基本设置</CardTitle>
         </CardHeader>
@@ -36,7 +36,7 @@
             />
           </div> -->
 
-          <div class="flex items-center justify-between">
+          <!-- <div class="flex items-center justify-between">
             <div>
               <Label for="start-at-login">开机自启</Label>
               <p class="text-sm text-muted-foreground">系统启动时自动启动应用程序</p>
@@ -46,12 +46,12 @@
               :checked="settings.startAtLogin"
               @update:checked="v => updateStartAtLogin(!!v)"
             />
-          </div>
+          </div> -->
         </CardContent>
       </Card>
 
       <!-- 代理设置 -->
-      <Card class="aurora hover:shadow-lg transition-all">
+      <Card class="aurora glass hover-lift card-glow smooth-in">
         <CardHeader>
           <CardTitle>代理设置</CardTitle>
         </CardHeader>
@@ -101,7 +101,7 @@
       <!-- 路由设置已拆分至“路由”页面 -->
 
       <!-- 高级设置 -->
-      <Card class="aurora hover:shadow-lg transition-all">
+      <Card class="aurora glass hover-lift card-glow smooth-in">
         <CardHeader>
           <CardTitle>高级设置</CardTitle>
         </CardHeader>
@@ -179,7 +179,7 @@
       </Card>
 
       <!-- 核心信息 -->
-      <Card class="aurora hover:shadow-lg transition-all">
+      <Card class="aurora glass hover-lift card-glow smooth-in">
         <CardHeader>
           <CardTitle>Xray 核心信息</CardTitle>
         </CardHeader>

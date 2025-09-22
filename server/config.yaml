@@ -1,6 +1,6 @@
 server:
   address: "127.0.0.1"
-  port: 58081
+  port: 58082
   gin_mode: release
   access_log: false
 

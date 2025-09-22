@@ -21,7 +21,7 @@
       </div>
     </div>
     <!-- 日志列表（单块区域，近 50 条，自动滚动到底部） -->
-    <Card class="flex-1 flex min-h-0 aurora hover:shadow-lg transition-all">
+    <Card class="flex-1 flex min-h-0 aurora glass hover-lift card-glow smooth-in">
       <CardContent class="p-0 flex-1 min-h-0">
         <div class="h-full overflow-auto font-mono text-xs leading-4 whitespace-pre-wrap" ref="containerRef">
           <div v-if="displayLogs.length === 0" class="p-6 text-center text-muted-foreground text-sm">
@@ -57,7 +57,7 @@ const formatTime = (time: string) => new Date(time).toLocaleString()
 const lineText = (log: LogEntry) => `[${formatTime(log.time)}] ${log.level.toUpperCase()} ${log.source}: ${log.message}`
 
 const refreshLogs = () => {
-  logsStore.fetchLogs()
+  logsStore.fetchLogs({ silent: false })
 }
 
 const clearLogs = async () => {

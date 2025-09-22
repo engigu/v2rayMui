@@ -88,12 +88,125 @@
   /* 柔和的极光背景效果 */
   .aurora { position: relative; overflow: hidden; }
   .aurora::before {
-    /* content: "";
+    content: "";
     position: absolute;
     inset: -40%;
-    background: conic-gradient(from 0deg, rgba(16,185,129,.18), rgba(59,130,246,.15), rgba(244,63,94,.15), rgba(16,185,129,.18));
-    filter: blur(40px);
-    animation: rotate-slow 20s linear infinite;
-    pointer-events: none; */
+    background: conic-gradient(from 0deg, rgba(16,185,129,.10), rgba(59,130,246,.10), rgba(244,63,94,.10), rgba(16,185,129,.10));
+    filter: blur(50px);
+    animation: rotate-slow 28s linear infinite;
+    pointer-events: none;
+  }
+
+  /* 玻璃卡片与悬浮动效 */
+  .glass { @apply bg-card/70 backdrop-blur border border-border/60; }
+  .hover-lift { transition: transform .2s ease, box-shadow .2s ease; }
+  .hover-lift:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.06); }
+
+  /* 页面统一背景（和谐柔和） */
+  .app-bg {
+    background: radial-gradient(1400px 520px at -10% -20%, rgba(59,130,246,.10), transparent),
+                radial-gradient(1200px 520px at 120% 0%, rgba(16,185,129,.10), transparent),
+                radial-gradient(900px 420px at 50% 120%, rgba(244,63,94,.06), transparent);
+  }
+
+  /* 渐变丝带头部，可用于容器顶端点缀 */
+  .ribbon {
+    position: relative;
+    isolation: isolate;
+  }
+  .ribbon::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: linear-gradient(90deg, #22c55e55, #3b82f655, #f43f5e55);
+    z-index: -1;
+  }
+
+  /* 进入动效（上浮与淡入） */
+  @keyframes smooth-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .smooth-in { animation: smooth-in .35s ease-out both; }
+
+  /* 卡片聚光与轻微外发光 */
+  .card-glow { position: relative; }
+  .card-glow::after {
+    content: ""; position: absolute; inset: -1px; border-radius: inherit;
+    background: radial-gradient(300px 120px at var(--mx,50%) var(--my,50%), rgba(255,255,255,.08), transparent 60%);
+    pointer-events: none; transition: opacity .2s ease; opacity: .6;
+  }
+  .card-glow:hover::after { opacity: .9; }
+
+  /* 更酷炫：粒子与霓虹（可选开启） */
+  .fx-boost { position: relative; isolation: isolate; }
+  .fx-boost::before,
+  .fx-boost::after {
+    content: ""; position: absolute; inset: -10%; pointer-events: none; z-index: -1;
+    background-repeat: repeat;
+    background-size: 300px 300px;
+    opacity: .30; filter: blur(0.25px);
+    animation: move-constellation 60s linear infinite;
+  }
+  .fx-boost::before {
+    background-image:
+      radial-gradient(2px 2px at 20% 30%, rgba(59,130,246,.8), transparent 60%),
+      radial-gradient(1.5px 1.5px at 70% 60%, rgba(16,185,129,.8), transparent 60%),
+      radial-gradient(1.5px 1.5px at 40% 80%, rgba(244,63,94,.8), transparent 60%);
+  }
+  .fx-boost::after {
+    background-image:
+      radial-gradient(1.2px 1.2px at 10% 70%, rgba(139,92,246,.8), transparent 60%),
+      radial-gradient(1.2px 1.2px at 85% 25%, rgba(14,165,233,.8), transparent 60%),
+      radial-gradient(1.2px 1.2px at 55% 50%, rgba(34,197,94,.8), transparent 60%);
+    animation-duration: 85s;
+    mix-blend-mode: screen;
+  }
+  @keyframes move-constellation {
+    0% { transform: translate3d(0,0,0) scale(1); }
+    50% { transform: translate3d(2%, -1%, 0) scale(1.02); }
+    100% { transform: translate3d(0,0,0) scale(1); }
+  }
+
+  /* 霓虹标题（谨慎使用） */
+  .neon {
+    text-shadow:
+      0 0 6px rgba(59,130,246,.45),
+      0 0 12px rgba(59,130,246,.30),
+      0 2px 2px rgba(0,0,0,.15);
+  }
+
+  /* 按钮高光扫光效果 */
+  @keyframes shine-sweep { from { left: -60%; } to { left: 120%; } }
+  .btn-shine { position: relative; overflow: hidden; }
+  .btn-shine::after {
+    content: ""; position: absolute; top: -40%; left: -60%; width: 40%; height: 180%;
+    background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.35) 45%, rgba(255,255,255,.0) 60%);
+    transform: skewX(-20deg); filter: blur(1px);
+    transition: opacity .2s ease; opacity: 0;
+  }
+  .btn-shine:hover::after { opacity: 1; animation: shine-sweep .9s ease-out; }
+
+  /* 侧边栏专用极光效果 */
+  .sidebar-aurora { position: relative; overflow: hidden; }
+  .sidebar-aurora::before {
+    content: ""; position: absolute; pointer-events: none;
+    inset: -20% -30% -20% -40%;
+    background:
+      radial-gradient(520px 320px at 0% 10%, rgba(59,130,246,.16), transparent 60%),
+      radial-gradient(420px 260px at 100% 90%, rgba(16,185,129,.14), transparent 60%),
+      linear-gradient(180deg, rgba(255,255,255,.03), transparent 60%);
+    filter: blur(36px);
+  }
+  .sidebar-aurora::after {
+    content: ""; position: absolute; top: 0; right: -1px; width: 1px; height: 100%;
+    background: linear-gradient(180deg, transparent, rgba(59,130,246,.35), transparent);
+    opacity: .5; pointer-events: none;
+  }
+
+  /* 容器外框发光（更强） */
+  .frame-glow { position: relative; }
+  .frame-glow::before {
+    content: ""; position: absolute; inset: -2px; border-radius: inherit; pointer-events: none;
+    background: linear-gradient(180deg, rgba(59,130,246,.30), rgba(16,185,129,.24));
+    filter: blur(14px); opacity: .55;
   }
 }

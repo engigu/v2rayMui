@@ -4,6 +4,7 @@ import AppKit
 struct StatusMenuView: View {
     @StateObject private var vm = StatusViewModel()
     @State private var openBinError: String? = nil
+    @State private var loginItemEnabled: Bool = LoginItemManager.isEnabled()
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -64,6 +65,16 @@ struct StatusMenuView: View {
                 }
                 Button("刷新") {
                     Task { await vm.fetchStatus() }
+                }
+                Divider()
+                Toggle(isOn: Binding(get: { loginItemEnabled }, set: { v in
+                    if LoginItemManager.setEnabled(v) {
+                        loginItemEnabled = LoginItemManager.isEnabled()
+                    } else {
+                        loginItemEnabled = LoginItemManager.isEnabled()
+                    }
+                })) {
+                    Text("开机自启")
                 }
             }
 

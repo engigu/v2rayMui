@@ -2,12 +2,12 @@
   <div class="p-4">
     <div class="mb-3">
       <h2 class="text-xl font-bold text-foreground">仪表板</h2>
-      <p class="text-sm text-muted-foreground">V2Ray 连接状态和快速操作</p>
+      <p class="text-sm text-muted-foreground">V2Ray连接状态和快速操作</p>
     </div>
 
     <!-- 连接状态卡片 -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
-      <Card class="aurora hover:shadow-lg transition-all">
+      <Card class="aurora glass hover-lift card-glow smooth-in">
         <CardHeader>
           <CardTitle class="flex items-center">
             <Wifi class="w-5 h-5 mr-2" :class="status.connected ? 'text-emerald-600 animate-pulse' : 'text-red-600'" />
@@ -53,7 +53,7 @@
               @click="toggleConnection"
               :disabled="loading"
               :variant="status.connected ? 'destructive' : 'default'"
-              class="transition-transform hover:scale-105"
+              class="transition-transform hover:scale-105 btn-shine"
             >
               <span v-if="loading" class="inline-flex items-center gap-1">
                 <RefreshCw class="w-4 h-4 animate-spin" />
@@ -67,7 +67,7 @@
         </CardContent>
       </Card>
 
-      <Card class="aurora hover:shadow-lg transition-all">
+      <Card class="aurora glass hover-lift card-glow smooth-in">
         <CardHeader>
           <CardTitle class="flex items-center">
             <Server class="w-5 h-5 mr-2" />
@@ -86,7 +86,7 @@
         </CardContent>
       </Card>
 
-      <Card class="aurora hover:shadow-lg transition-all">
+      <Card class="aurora glass hover-lift card-glow smooth-in">
         <CardHeader>
           <CardTitle class="flex items-center">
             <Activity class="w-5 h-5 mr-2" />

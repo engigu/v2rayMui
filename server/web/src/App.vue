@@ -1,16 +1,18 @@
 <template>
-  <div class="min-h-screen bg-background flex items-center justify-center p-6">
+  <div class="min-h-screen bg-background flex items-center justify-center p-6 smooth-in">
     <!-- 主应用卡片 -->
-    <div class="w-full max-w-6xl h-[650px] bg-card border border-border rounded-xl shadow-lg overflow-hidden flex">
+    <div class="w-full max-w-6xl h-[650px] glass frame-glow rounded-xl shadow-lg overflow-hidden flex">
       <!-- 侧边栏 -->
-      <aside class="w-64 bg-muted/30 border-r border-border flex flex-col">
+      <aside class="w-64 bg-muted/30 border-r border-border flex flex-col sidebar-aurora">
         <div class="p-4 border-b border-border">
           <div class="flex items-center justify-between">
             <div>
-              <h1 class="text-lg font-bold text-foreground">V2Ray MUI</h1>
-              <p class="text-xs text-muted-foreground mt-1">基于 Golang 和 Vue 的 V2Ray 图形配置客户端</p>
+              <div class="flex items-center justify-between">
+                <h1 class="text-lg font-bold text-foreground">V2RayMUI-GO</h1>
+                <ThemeSwitcher />
+              </div>
+              <p class="text-[11px] text-muted-foreground mt-1">基于Golang和Vue的V2ray图形配置客户端</p>
             </div>
-            
           </div>
         </div>
         <nav class="flex-1 p-3">
@@ -85,6 +87,7 @@
 import { Home, Server, Settings, FileText } from 'lucide-vue-next'
 import { onErrorCaptured } from 'vue'
 import { Toaster } from '@/components/ui/toast'
+import ThemeSwitcher from '@/components/ThemeSwitcher.vue'
  
 
 // 捕获组件错误

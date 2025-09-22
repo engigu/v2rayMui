@@ -3,7 +3,7 @@
     <div class="mb-3 flex justify-between items-center">
       <div>
         <h2 class="text-xl font-bold text-foreground">服务器管理</h2>
-        <p class="text-sm text-muted-foreground">管理您的 V2Ray 服务器配置</p>
+        <p class="text-sm text-muted-foreground">管理您的V2Ray服务器配置</p>
       </div>
       <div class="flex gap-2">
         <Button variant="outline" @click="importFromClipboard">
@@ -18,11 +18,11 @@
     </div>
 
     <!-- 服务器列表 -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
       <Card
         v-for="server in servers"
         :key="server.id"
-        class="cursor-pointer transition-colors hover:bg-accent aurora hover:shadow-lg transition-all"
+        class="cursor-pointer aurora glass hover-lift card-glow smooth-in"
         :class="{ 'ring-2 ring-primary': server.id === selectedServerId }"
         @click="selectServer(server.id)"
       >
@@ -73,7 +73,7 @@
       <DialogContent :key="editingServer?.id || 'new'">
         <DialogHeader>
           <DialogTitle>{{ editingServer ? '编辑服务器' : '添加服务器' }}</DialogTitle>
-          <DialogDescription>编辑或添加 V2Ray 服务器配置</DialogDescription>
+          <DialogDescription>编辑或添加V2Ray服务器配置</DialogDescription>
         </DialogHeader>
         <form @submit.prevent="saveServer" class="space-y-4">
           <div class="grid grid-cols-2 gap-4">
