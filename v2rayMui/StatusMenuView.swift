@@ -36,8 +36,14 @@ struct StatusMenuView: View {
                     .foregroundColor(.secondary)
                     .frame(width: 14, alignment: .center)
                 if let name = vm.selectedName {
-                    Text("当前服务器：\(name)")
-                        .font(.subheadline)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("当前服务器：")
+                            .font(.subheadline)
+                        Text(name)
+                            .font(.subheadline)
+                            .lineLimit(1)
+                            .truncationMode(.middle)
+                    }
                 } else {
                     Text("未选择服务器")
                         .font(.subheadline)
